@@ -1,0 +1,248 @@
+{
+  "catalog_version": "2026.08",
+  "currency": "AUD",
+  "strategies": [
+    {
+      "id": "leak_audit_repair",
+      "name": "Irrigation System Audit & Leak Repair",
+      "category": "maintenance",
+      "description": "Professional audit of pumps, pipes, fittings and outlets to identify and fix leaks, pressure loss, and uneven distribution. Usually the first, cheapest step before any capital investment.",
+      "cost_model": {
+        "fixed_aud": 800,
+        "per_ha_aud": 15,
+        "recurring_annual_aud": 300
+      },
+      "lifespan_years": 1,
+      "annual_maintenance_pct": 0.0,
+      "savings_pct_range": [0.05, 0.15],
+      "savings_pct_default": 0.08,
+      "applicable_crop_categories": "ALL",
+      "not_applicable_if_current_irrigation": [],
+      "implementation_disruption": "low",
+      "source": "EPA WaterSense; general industry consensus that inefficient/leaking systems waste up to 50% of applied water to evaporation, runoff, and leakage",
+      "confidence": "medium"
+    },
+    {
+      "id": "soil_moisture_sensors",
+      "name": "Soil Moisture Sensor Network + Scheduling",
+      "category": "monitoring",
+      "description": "Capacitive or tensiometer-based soil moisture sensors feeding an irrigation scheduling dashboard, replacing calendar-based or rule-of-thumb watering.",
+      "cost_model": {
+        "fixed_aud": 3000,
+        "per_ha_aud": 120,
+        "recurring_annual_aud": 400
+      },
+      "lifespan_years": 5,
+      "annual_maintenance_pct": 0.05,
+      "savings_pct_range": [0.10, 0.25],
+      "savings_pct_default": 0.15,
+      "applicable_crop_categories": "ALL",
+      "not_applicable_if_current_irrigation": [],
+      "implementation_disruption": "low",
+      "source": "Multi-study synthesis: soil moisture sensors show water savings of at least 15% (up to 50%+ in favorable deployments); conservative field trials on high-value crops (strawberry/almond) show 10-16% with yield maintained",
+      "confidence": "high"
+    },
+    {
+      "id": "et_scheduling_software",
+      "name": "Evapotranspiration (ET)-Based Scheduling Subscription",
+      "category": "monitoring",
+      "description": "Software service that uses BoM weather/ET data plus crop coefficients to recommend irrigation timing and volume. No hardware install required.",
+      "cost_model": {
+        "fixed_aud": 0,
+        "per_ha_aud": 8,
+        "recurring_annual_aud": 600
+      },
+      "lifespan_years": 1,
+      "annual_maintenance_pct": 0.0,
+      "savings_pct_range": [0.08, 0.15],
+      "savings_pct_default": 0.10,
+      "applicable_crop_categories": "ALL",
+      "not_applicable_if_current_irrigation": [],
+      "implementation_disruption": "low",
+      "source": "Comparable to sensor-scheduling literature but lower savings ceiling since it doesn't measure actual in-field soil state; positioned as a lower-cost entry point",
+      "confidence": "medium"
+    },
+    {
+      "id": "mulching_residue",
+      "name": "Mulching / Crop Residue Retention",
+      "category": "agronomic",
+      "description": "Retaining stubble or applying organic mulch to reduce surface evaporation and improve soil water holding capacity.",
+      "cost_model": {
+        "fixed_aud": 0,
+        "per_ha_aud": 90,
+        "recurring_annual_aud": 0
+      },
+      "lifespan_years": 1,
+      "annual_maintenance_pct": 0.0,
+      "savings_pct_range": [0.05, 0.15],
+      "savings_pct_default": 0.08,
+      "applicable_crop_categories": "ALL",
+      "not_applicable_if_current_irrigation": ["flood"],
+      "implementation_disruption": "low",
+      "source": "General agronomic literature on evaporation reduction via surface cover; not applicable to flood/paddy systems where residue interferes with water flow",
+      "confidence": "medium"
+    },
+    {
+      "id": "laser_land_leveling",
+      "name": "Laser Land Leveling",
+      "category": "infrastructure",
+      "description": "Precision grading of flood/furrow-irrigated fields to a uniform micro-gradient, eliminating pooling and uneven advance. Typically contracted, redone every 3-5 years as soil moves.",
+      "cost_model": {
+        "fixed_aud": 0,
+        "per_ha_aud": 650,
+        "recurring_annual_aud": 0
+      },
+      "lifespan_years": 4,
+      "annual_maintenance_pct": 0.0,
+      "savings_pct_range": [0.15, 0.30],
+      "savings_pct_default": 0.20,
+      "applicable_crop_categories": "ALL",
+      "not_applicable_if_current_irrigation": ["drip", "spray"],
+      "implementation_disruption": "medium",
+      "source": "Converging estimates of 20-30% water consumption reduction across multiple field studies; older benchmark work (Bhatt & Sharma 2009) reports 25-30% without yield penalty",
+      "confidence": "high"
+    },
+    {
+      "id": "targeted_drip_conversion",
+      "name": "Targeted Drip/Micro-Irrigation Conversion",
+      "category": "infrastructure",
+      "description": "Converting the highest-value or most water-stressed 25% of irrigated area (not the whole farm) from flood/spray to drip. Capital cost and savings are scaled to that fraction only, reflecting realistic partial-adoption economics.",
+      "cost_model": {
+        "fixed_aud": 0,
+        "per_ha_aud": 4200,
+        "recurring_annual_aud": 0,
+        "capped_area_fraction": 0.25
+      },
+      "lifespan_years": 12,
+      "annual_maintenance_pct": 0.03,
+      "savings_pct_range": [0.30, 0.50],
+      "savings_pct_default": 0.35,
+      "applicable_crop_categories": "ALL",
+      "not_applicable_if_current_irrigation": ["drip"],
+      "implementation_disruption": "high",
+      "source": "Solid-set/pipe systems ~90% efficiency vs 75% flood (Agriculture Victoria); drip broadly reported at 30-60% savings vs flood. Conservative end used, applied to 25% of farm area only",
+      "confidence": "high"
+    },
+    {
+      "id": "sprinkler_upgrade",
+      "name": "Travelling Gun to Solid-Set/Pipe & Riser Upgrade",
+      "category": "infrastructure",
+      "description": "Replacing travelling-gun or hand-move sprinklers with fixed solid-set or pipe-and-riser systems, which have meaningfully higher application efficiency.",
+      "cost_model": {
+        "fixed_aud": 0,
+        "per_ha_aud": 2100,
+        "recurring_annual_aud": 0
+      },
+      "lifespan_years": 10,
+      "annual_maintenance_pct": 0.03,
+      "savings_pct_range": [0.10, 0.20],
+      "savings_pct_default": 0.14,
+      "applicable_crop_categories": "ALL",
+      "not_applicable_if_current_irrigation": ["drip", "spray_solid_set"],
+      "implementation_disruption": "medium",
+      "source": "Agriculture Victoria (2003): solid-set/pipe & riser ~90% efficiency vs 65-75% for travelling gun systems",
+      "confidence": "high"
+    },
+    {
+      "id": "tailwater_recycling",
+      "name": "On-Farm Tailwater Recycling Pit",
+      "category": "infrastructure",
+      "description": "Small farm-scale catchment pit and pump-back system to capture and reuse irrigation runoff/tailwater, rather than losing it off-property.",
+      "cost_model": {
+        "fixed_aud": 14000,
+        "per_ha_aud": 180,
+        "recurring_annual_aud": 300
+      },
+      "lifespan_years": 10,
+      "annual_maintenance_pct": 0.03,
+      "savings_pct_range": [0.05, 0.12],
+      "savings_pct_default": 0.08,
+      "applicable_crop_categories": "ALL",
+      "not_applicable_if_current_irrigation": ["drip"],
+      "implementation_disruption": "medium",
+      "source": "Placeholder estimate — needs validation against regional case studies (e.g. NSW DPI or Cotton Australia tailwater return system reports); not independently verified in this pass",
+      "confidence": "low"
+    },
+    {
+      "id": "telemetry_pump_automation",
+      "name": "Remote Telemetry & Automated Pump Shutoff",
+      "category": "automation",
+      "description": "Remote monitoring and automated cutoff of pumps/channels to prevent overnight or unattended over-application.",
+      "cost_model": {
+        "fixed_aud": 1800,
+        "per_ha_aud": 60,
+        "recurring_annual_aud": 350
+      },
+      "lifespan_years": 6,
+      "annual_maintenance_pct": 0.05,
+      "savings_pct_range": [0.05, 0.12],
+      "savings_pct_default": 0.08,
+      "applicable_crop_categories": "ALL",
+      "not_applicable_if_current_irrigation": [],
+      "implementation_disruption": "low",
+      "source": "Placeholder estimate based on general automation-reduces-overwatering logic — needs validation against vendor case studies",
+      "confidence": "low"
+    },
+    {
+      "id": "soil_amendment",
+      "name": "Soil Amendment (Gypsum / Organic Matter)",
+      "category": "agronomic",
+      "description": "Improving soil structure and water-holding capacity via gypsum application (for sodic/clay soils) or organic matter incorporation, reducing irrigation frequency.",
+      "cost_model": {
+        "fixed_aud": 0,
+        "per_ha_aud": 140,
+        "recurring_annual_aud": 0
+      },
+      "lifespan_years": 2,
+      "annual_maintenance_pct": 0.0,
+      "savings_pct_range": [0.03, 0.08],
+      "savings_pct_default": 0.05,
+      "applicable_crop_categories": "ALL",
+      "not_applicable_if_current_irrigation": [],
+      "implementation_disruption": "low",
+      "source": "Placeholder estimate — soil-specific; only effective on sodic/clay-heavy soils, needs regional soil-survey validation before presenting as a firm figure",
+      "confidence": "low"
+    },
+    {
+      "id": "deficit_irrigation",
+      "name": "Managed Deficit Irrigation (Agronomist-Supervised)",
+      "category": "agronomic",
+      "description": "Controlled, science-based under-watering at non-critical crop growth stages, run with agronomist supervision to protect yield. Near-zero capital cost but requires ongoing expert input.",
+      "cost_model": {
+        "fixed_aud": 0,
+        "per_ha_aud": 0,
+        "recurring_annual_aud": 0,
+        "flat_annual_service_aud": 2500
+      },
+      "lifespan_years": 1,
+      "annual_maintenance_pct": 0.0,
+      "savings_pct_range": [0.10, 0.20],
+      "savings_pct_default": 0.12,
+      "applicable_crop_categories": "ALL",
+      "not_applicable_if_current_irrigation": [],
+      "implementation_disruption": "medium",
+      "source": "Deficit irrigation studies on citrus/cotton report 10-20% savings with acceptable yield trade-off when properly managed; unmanaged deficit irrigation carries real yield risk and is why this requires agronomist supervision",
+      "confidence": "medium"
+    },
+    {
+      "id": "onfarm_channel_piping",
+      "name": "On-Farm Supply Channel to Pipe Conversion",
+      "category": "infrastructure",
+      "description": "Converting open on-farm delivery channels (not shared/community infrastructure) to piped delivery, cutting conveyance loss to evaporation and seepage. Highest capital tier in this catalog — only economically sound for larger operations with significant channel length.",
+      "cost_model": {
+        "fixed_aud": 5000,
+        "per_ha_aud": 950,
+        "recurring_annual_aud": 0
+      },
+      "lifespan_years": 15,
+      "annual_maintenance_pct": 0.02,
+      "savings_pct_range": [0.10, 0.20],
+      "savings_pct_default": 0.13,
+      "applicable_crop_categories": "ALL",
+      "not_applicable_if_current_irrigation": ["drip", "spray"],
+      "implementation_disruption": "high",
+      "source": "General conveyance-loss literature for open channel vs piped delivery; needs regional cost validation before use in client-facing figures",
+      "confidence": "low"
+    }
+  ]
+}
