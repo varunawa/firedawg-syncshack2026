@@ -32,6 +32,32 @@ type View =
   | "peers"
   | "suggestions";
 
+type RatingTier = "low" | "moderate" | "high" | "unknown";
+
+function getRatingTier(rating: string): RatingTier {
+  const normalized = rating.toLowerCase();
+
+  if (normalized.includes("high")) {
+    return "high";
+  }
+
+  if (
+    normalized.includes("efficient") ||
+    normalized.includes("low")
+  ) {
+    return "low";
+  }
+
+  if (
+    normalized.includes("typical") ||
+    normalized.includes("moderate")
+  ) {
+    return "moderate";
+  }
+
+  return "unknown";
+}
+
 const views: View[] = [
   "snapshot",
   "position",
@@ -46,6 +72,8 @@ export default function Scenarios({
 }: ScenarioProps) {
   const [activeView, setActiveView] =
     useState<View>("snapshot");
+
+  const ratingTier = getRatingTier(benchmark.rating);
 
   const currentUse =
     benchmark.user_water_intensity_ml_per_ha;
@@ -212,7 +240,9 @@ export default function Scenarios({
                 </p>
               )}
 
-              <div className="snapshot-rating">
+              <div
+                className={`snapshot-rating rating-${ratingTier}`}
+              >
                 <span>Overall rating</span>
 
                 <strong>
@@ -282,7 +312,9 @@ export default function Scenarios({
                     </strong>
                   </div>
 
-                  <div className="difference-pill">
+                  <div
+                    className={`difference-pill rating-${ratingTier}`}
+                  >
                     {differenceText}
                   </div>
                 </div>
@@ -291,7 +323,7 @@ export default function Scenarios({
                   <div className="scale-track" />
 
                   <div
-                    className="scale-marker user-marker"
+                    className={`scale-marker user-marker rating-${ratingTier}`}
                     style={{
                       left: `${userPosition}%`,
                     }}
@@ -377,7 +409,7 @@ export default function Scenarios({
 
                   {benchmark.percentile !== null && (
                     <div
-                      className="peer-marker"
+                      className={`peer-marker rating-${ratingTier}`}
                       style={{
                         left: `${percentilePosition}%`,
                       }}
