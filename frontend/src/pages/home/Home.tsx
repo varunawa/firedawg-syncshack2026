@@ -228,12 +228,16 @@ export default function Home() {
     if (benchmark) {
         return (
             <Scenarios
-                benchmark={benchmark}
-                summary={summary}
-                summaryLoading={summaryLoading}
+            benchmark={benchmark}
+            summary={summary}
+            summaryLoading={summaryLoading}
+            onEditDetails={() => {
+                setBenchmark(null);
+                setStep(1);
+            }}
             />
         );
-    }
+        }
 
   return (
     <section id="home" className="home">

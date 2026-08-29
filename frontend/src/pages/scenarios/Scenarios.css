@@ -1179,3 +1179,28 @@
   height: auto;
   min-height: 100vh;
 }
+
+.edit-details-button {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 9999;
+
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(137, 151, 193, 0.45);
+
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  color: #555b78;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.edit-details-button:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.85);
+}
