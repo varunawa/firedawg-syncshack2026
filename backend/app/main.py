@@ -45,7 +45,8 @@ from pydantic import BaseModel
 from app.config import settings
 from app.db import Base, engine
 from app.routers import tasks
-
+from app.routers.weather import router as weather_router
+from app.routers.waternsw import router as waternsw_router
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
@@ -67,9 +68,31 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+<<<<<<< HEAD
+=======
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.cors_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+>>>>>>> f9ccc74 (Add dynamic WaterNSW API integration)
 
 app.include_router(tasks.router)
 
+app.include_router(
+    weather_router,
+    prefix="/api",
+    tags=["weather"],
+)
+
+
+app.include_router(
+    waternsw_router,
+    prefix="/api/water",
+    tags=["WaterNSW"],
+)
 
 @app.get("/health", tags=["meta"])
 def health():
