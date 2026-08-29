@@ -1164,3 +1164,18 @@
     justify-content: center;
   }
 }
+
+/* =========================
+   SUGGESTIONS PAGE SCROLLING
+========================= */
+
+.scenarios.suggestions-active {
+  height: auto;
+  min-height: 100vh;
+  overflow: visible;
+}
+
+.scenarios.suggestions-active .scenario-shell {
+  height: auto;
+  min-height: 100vh;
+}

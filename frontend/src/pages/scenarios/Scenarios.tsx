@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Scenarios.css";
+import Suggestions from "../suggestions/Suggestions";
 
 export interface BenchmarkResult {
   benchmark_water_intensity_ml_per_ha: number | null;
@@ -25,13 +26,17 @@ interface ScenarioProps {
   summaryLoading?: boolean;
 }
 
-type View = "snapshot" | "position" | "peers" | "scenario";
+type View =
+  | "snapshot"
+  | "position"
+  | "peers"
+  | "suggestions";
 
 const views: View[] = [
   "snapshot",
   "position",
   "peers",
-  "scenario",
+  "suggestions",
 ];
 
 export default function Scenarios({
@@ -42,16 +47,11 @@ export default function Scenarios({
   const [activeView, setActiveView] =
     useState<View>("snapshot");
 
-  const [reduction, setReduction] = useState(10);
-
   const currentUse =
     benchmark.user_water_intensity_ml_per_ha;
 
   const regionalBenchmark =
     benchmark.benchmark_water_intensity_ml_per_ha;
-
-  const projectedUse =
-    currentUse * (1 - reduction / 100);
 
   const currentIndex = views.indexOf(activeView);
 
@@ -110,7 +110,13 @@ export default function Scenarios({
       : 50;
 
   return (
-    <main className="scenarios">
+    <main
+        className={`scenarios ${
+            activeView === "suggestions"
+            ? "suggestions-active"
+            : ""
+        }`}
+    >
       <div className="scenario-shell">
 
         {/* TOP NAVIGATION */}
@@ -162,15 +168,15 @@ export default function Scenarios({
 
             <button
               className={
-                activeView === "scenario"
+                activeView === "suggestions"
                   ? "scenario-tab active"
                   : "scenario-tab"
               }
               onClick={() =>
-                setActiveView("scenario")
+                setActiveView("suggestions")
               }
             >
-              What If?
+              Suggestions
             </button>
           </div>
         </header>
@@ -428,173 +434,52 @@ export default function Scenarios({
           </section>
         )}
 
-        {/* WHAT IF */}
-        {activeView === "scenario" && (
-          <section className="scenario-view">
-            <div className="view-content">
-              <p className="scenario-label">
-                SCENARIO EXPLORER
-              </p>
-
-              <h2>
-                What if you used less water?
-              </h2>
-
-              <p className="section-description">
-                Explore how a change in water use
-                could affect your water application
-                rate.
-              </p>
-
-              <div className="glass-card what-if-card">
-                <div className="scenario-question">
-                  What if you reduced your water
-                  use by
-                </div>
-
-                <div className="reduction-number">
-                  {reduction}
-                  <span>%</span>
-                </div>
-
-                <div className="slider-container">
-                  <input
-                    type="range"
-                    min="0"
-                    max="30"
-                    step="1"
-                    value={reduction}
-                    onChange={(event) =>
-                      setReduction(
-                        Number(event.target.value)
-                      )
-                    }
-                    className="reduction-slider"
-                  />
-
-                  <div className="slider-labels">
-                    <span>0%</span>
-                    <span>10%</span>
-                    <span>20%</span>
-                    <span>30%</span>
-                  </div>
-                </div>
-
-                <div className="scenario-results">
-                  <div className="scenario-result">
-                    <span>Current</span>
-
-                    <strong>
-                      {currentUse.toFixed(2)}
-                    </strong>
-
-                    <small>ML/ha</small>
-                  </div>
-
-                  <div className="scenario-arrow">
-                    →
-                  </div>
-
-                  <div className="scenario-result projected">
-                    <span>Projected</span>
-
-                    <strong>
-                      {projectedUse.toFixed(2)}
-                    </strong>
-
-                    <small>ML/ha</small>
-                  </div>
-                </div>
-
-                {regionalBenchmark !== null && (
-                  <div className="scenario-benchmark-note">
-                    Regional benchmark
-
-                    <strong>
-                      {regionalBenchmark.toFixed(1)}{" "}
-                      ML/ha
-                    </strong>
-                  </div>
-                )}
-              </div>
-
-              <div className="methodology-row">
-                <div>
-                  <span>Benchmark year</span>
-
-                  <strong>
-                    {benchmark.benchmark_year ??
-                      "N/A"}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>Region</span>
-
-                  <strong>
-                    {benchmark.region_used ??
-                      "NSW"}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>Sample size</span>
-
-                  <strong>
-                    {benchmark.sample_size ??
-                      "N/A"}
-                  </strong>
-                </div>
-              </div>
-            </div>
-          </section>
+        {/* SUGGESTIONS */}
+        {activeView === "suggestions" && (
+          <Suggestions
+            currentWaterUse={currentUse}
+            onBack={() =>
+              setActiveView("peers")
+            }
+          />
         )}
 
         {/* BOTTOM NAV */}
-        <footer className="scenario-navigation">
-          <button
-            className="nav-button secondary"
-            onClick={goBack}
-            disabled={currentIndex === 0}
-          >
-            ← Back
-          </button>
+        {activeView !== "suggestions" && (
+          <footer className="scenario-navigation">
+            <button
+              className="nav-button secondary"
+              onClick={goBack}
+              disabled={currentIndex === 0}
+            >
+              ← Back
+            </button>
 
-          <div className="progress-dots">
-            {views.map((view) => (
-              <button
-                key={view}
-                aria-label={`Go to ${view}`}
-                className={
-                  activeView === view
-                    ? "progress-dot active"
-                    : "progress-dot"
-                }
-                onClick={() =>
-                  setActiveView(view)
-                }
-              />
-            ))}
-          </div>
+            <div className="progress-dots">
+              {views.map((view) => (
+                <button
+                  key={view}
+                  aria-label={`Go to ${view}`}
+                  className={
+                    activeView === view
+                      ? "progress-dot active"
+                      : "progress-dot"
+                  }
+                  onClick={() =>
+                    setActiveView(view)
+                  }
+                />
+              ))}
+            </div>
 
-          {currentIndex < views.length - 1 ? (
             <button
               className="nav-button primary"
               onClick={goNext}
             >
               Next →
             </button>
-          ) : (
-            <button
-              className="nav-button primary"
-              onClick={() =>
-                setActiveView("snapshot")
-              }
-            >
-              Back to summary
-            </button>
-          )}
-        </footer>
+          </footer>
+        )}
       </div>
     </main>
   );
