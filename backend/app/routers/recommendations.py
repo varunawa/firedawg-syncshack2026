@@ -5,6 +5,7 @@ from app.services.data_loader import RiskDataStore, get_data_store
 from app.services.strategy_loader import StrategyCatalog, get_strategy_catalog
 from app.services.optimizer import select_optimal_strategies, OptimizationResult
 from app.services.risk import compute_z_score, bucket_risk
+from app.services.projection import build_projection
 
 router = APIRouter()
 
@@ -31,7 +32,14 @@ def recommend_strategies(
 
     user_ml_per_ha = data.waterUsed / data.landArea
 
-    lls_info = store.lookup_lls(data.location.postcode, data.location.suburb)
+    if not data.location.suburb:
+        raise HTTPException(400, "Suburb is required.")
+
+    lls_info = store.lookup_lls(
+        str(data.location.postcode),
+        data.location.suburb,
+    )
+    
     if lls_info is None:
         raise HTTPException(404, f"No LLS mapping found for suburb '{data.location.suburb}'")
 
@@ -83,6 +91,15 @@ def recommend_strategies(
 
     cost_per_ml = (total_cost / total_savings) if total_savings > 0 else None
 
+    projection = build_projection(
+    current_water_intensity_ml_per_ha=user_ml_per_ha,
+    projected_water_intensity_ml_per_ha=projected_ml_per_ha,
+    total_estimated_savings_ml=total_savings,
+    total_annual_cost_aud=total_cost,
+    cost_per_ml_saved_aud=cost_per_ml,
+    land_area_ha=data.landArea,
+)
+
     return RecommendationResult(
         risk=risk,
         optimization_mode=mode,
@@ -105,4 +122,5 @@ def recommend_strategies(
         projected_z_score=projected_z,
         projected_risk_level=projected_risk,
         excluded_strategies_note=opt.message if not opt.success else "",
+        projection=projection,
     )
