@@ -4,19 +4,20 @@ import Scenarios, {
   type BenchmarkResult,
 } from "../scenarios/Scenarios";
 
+import {
+  type Suggestion,
+  type RecommendationResponse,
+  type BusinessData,
+  strategyToSuggestion,
+  DEFAULT_BUDGET_AUD,
+} from "../suggestions/Suggestions";
+
 interface LocationEntry {
   postcode: string | number;
   suburb: string;
   state: string;
   region_id: string;
   VALLEY_NAME: string;
-}
-
-interface BusinessData {
-  location: LocationEntry;
-  cropCategory: string;
-  waterUsed: number;
-  landArea: number;
 }
 
 export default function Home() {
@@ -39,6 +40,12 @@ export default function Home() {
   const [isRevealed, setIsRevealed] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
+
+  const [suggestions, setSuggestions] =
+  useState<Suggestion[]>([]);
+
+  const [businessData, setBusinessData] =
+    useState<BusinessData | null>(null);
 
   useEffect(() => {
     const node = containerRef.current;
@@ -168,12 +175,16 @@ export default function Home() {
             return;
         }
 
-        const businessData = {
+        const businessData: BusinessData = {
             location: matchedLocation,
             cropCategory,
             waterUsed: Number(waterUsed),
             landArea: Number(landArea),
+            currentIrrigationMethod: "unknown",
+            budgetAud: DEFAULT_BUDGET_AUD,
         };
+
+        setBusinessData(businessData);
 
         console.log("SENDING:", businessData);
 
@@ -200,9 +211,81 @@ export default function Home() {
             }
 
             const data = text ? JSON.parse(text) : null;
-
             console.log("BACKEND RESPONSE:", data);
 
+            /* =========================================
+            GET RECOMMENDATIONS
+            ========================================= */
+
+            try {
+            console.log("REQUESTING RECOMMENDATIONS...");
+
+            const recommendationResponse = await fetch(
+                "/api/recommend-strategies",
+                {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(businessData),
+                }
+            );
+
+            console.log(
+                "RECOMMENDATION STATUS:",
+                recommendationResponse.status
+            );
+
+            const recommendationText =
+                await recommendationResponse.text();
+
+            console.log(
+                "RAW RECOMMENDATIONS:",
+                recommendationText
+            );
+
+            if (!recommendationResponse.ok) {
+                console.error(
+                "Recommendations failed:",
+                recommendationResponse.status,
+                recommendationText
+                );
+
+                setSuggestions([]);
+            } else {
+                const recommendationData: RecommendationResponse =
+                JSON.parse(recommendationText);
+
+                console.log(
+                "RECOMMENDATION DATA:",
+                recommendationData
+                );
+
+                const convertedSuggestions =
+                recommendationData.selected_strategies.map(
+                    strategyToSuggestion
+                );
+
+                console.log(
+                "CONVERTED SUGGESTIONS:",
+                convertedSuggestions
+                );
+
+                setSuggestions(convertedSuggestions);
+            }
+            } catch (error) {
+            console.error(
+                "RECOMMENDATION FETCH FAILED:",
+                error
+            );
+
+            setSuggestions([]);
+            }
+
+            /*
+            Do this AFTER recommendations have been fetched.
+            Setting benchmark causes us to move to Scenarios.
+            */
             setBenchmark(data.benchmark);
 
             // Plain-English summary — non-blocking. The stats already render;
@@ -228,9 +311,15 @@ export default function Home() {
     if (benchmark) {
         return (
             <Scenarios
-                benchmark={benchmark}
-                summary={summary}
-                summaryLoading={summaryLoading}
+            benchmark={benchmark}
+            summary={summary}
+            summaryLoading={summaryLoading}
+            suggestions={suggestions}
+            businessData={businessData}
+            onEditDetails={() => {
+                setBenchmark(null);
+                setStep(1);
+            }}
             />
         );
     }

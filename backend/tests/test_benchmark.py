@@ -75,6 +75,14 @@ def test_single_point_benchmark_is_serializable():
     assert stats["std"] is None
 
 
+def test_risk_scales_up_when_allocation_and_rainfall_are_stressed():
+    from app.services.risk import compute_adjusted_risk_score
+
+    adjusted = compute_adjusted_risk_score(1.0, allocation_factor=1.4, rainfall_factor=1.3)
+    assert adjusted > 1.0
+    assert adjusted == pytest.approx(1.82, rel=1e-2)
+
+
 def test_crop_distribution_is_non_trivial():
     dist = crop_distribution("Cotton")
     assert len(dist) >= 5

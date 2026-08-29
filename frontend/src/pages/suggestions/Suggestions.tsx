@@ -7,10 +7,60 @@ import {
 
 import "./Suggestions.css";
 
+/* =========================================================
+   BACKEND TYPES
+   ========================================================= */
+
+export interface BackendStrategy {
+  id: string;
+  name: string;
+  category: string;
+  annual_cost_aud: number;
+  estimated_savings_ml: number;
+  savings_pct_applied: number;
+  implementation_disruption: string;
+  confidence: string;
+  source: string;
+}
+
+export interface RecommendationResponse {
+  risk: {
+    z_score: number | null;
+    risk_level: string;
+    user_ml_per_ha: number;
+    benchmark_mean: number | null;
+    benchmark_std: number | null;
+    sample_size: number | null;
+    lls_region: string | null;
+    valley_name: string | null;
+  };
+
+  optimization_mode: string;
+  target_savings_ml: number | null;
+  budget_aud: number | null;
+
+  selected_strategies: BackendStrategy[];
+
+  total_annual_cost_aud: number;
+  total_estimated_savings_ml: number;
+  cost_per_ml_saved_aud: number | null;
+
+  projected_water_use_ml_per_ha: number;
+  projected_z_score: number | null;
+  projected_risk_level: string;
+
+  excluded_strategies_note: string;
+}
+
+/* =========================================================
+   FRONTEND SUGGESTION TYPE
+   ========================================================= */
+
 export interface Suggestion {
   id: string;
   title: string;
   category: string;
+
   shortDescription: string;
   explanation: string;
   actions: string[];
@@ -19,128 +69,152 @@ export interface Suggestion {
   difficulty: "easy" | "moderate" | "advanced";
 
   estimatedWaterReductionPct?: number | null;
+  annualCostAud?: number | null;
+  estimatedSavingsMl?: number | null;
+  confidence?: string | null;
+  source?: string | null;
+}
+
+export interface BusinessData {
+  location: {
+    postcode: string | number;
+    suburb?: string | null;
+    state?: string | null;
+  };
+  cropCategory: string;
+  waterUsed: number;
+  landArea: number;
+  currentIrrigationMethod?: string;
+  budgetAud?: number | null;
+}
+
+export const DEFAULT_BUDGET_AUD = 15000;
+const BUDGET_MIN = 0;
+const BUDGET_MAX = 100000;
+const BUDGET_STEP = 1000;
+const BUDGET_DEBOUNCE_MS = 400;
+
+interface RecommendationSummary {
+  strategyCount: number;
+  totalAnnualCostAud: number;
+  totalEstimatedSavingsMl: number;
 }
 
 interface SuggestionsProps {
   suggestions?: Suggestion[];
   currentWaterUse: number;
+  businessData?: BusinessData | null;
   onBack?: () => void;
 }
 
-/*
-  TEMPORARY FRONTEND DATA.
+function formatAud(value: number) {
+  return `$${Math.round(value).toLocaleString("en-AU")}`;
+}
 
-  Replace this later with backend suggestions.
-*/
-const fallbackSuggestions: Suggestion[] = [
-  {
-    id: "irrigation-scheduling",
-    title: "Review irrigation scheduling",
-    category: "Irrigation",
-    shortDescription:
-      "Better align irrigation timing with crop demand and local conditions.",
-    explanation:
-      "Reviewing irrigation timing may help reduce unnecessary water application by matching watering more closely with crop requirements and current conditions.",
-    actions: [
-      "Review current irrigation frequency",
-      "Consider lower-evaporation watering periods",
-      "Use recent weather conditions when planning irrigation",
-    ],
-    impact: "high",
-    difficulty: "moderate",
-    estimatedWaterReductionPct: 15,
-  },
+function formatMl(value: number) {
+  return value.toLocaleString("en-AU", {
+    maximumFractionDigits: 2,
+  });
+}
 
-  {
-    id: "soil-moisture",
-    title: "Monitor soil moisture",
-    category: "Monitoring",
-    shortDescription:
-      "Use soil moisture data to understand when irrigation is actually needed.",
-    explanation:
-      "Soil moisture monitoring can provide additional information about water availability in the root zone before irrigation is applied.",
-    actions: [
-      "Introduce soil moisture sensors",
-      "Track moisture between irrigation cycles",
-      "Compare readings with irrigation timing",
-    ],
-    impact: "medium",
-    difficulty: "moderate",
-    estimatedWaterReductionPct: 10,
-  },
+function whyThisMayHelp(category: string) {
+  const key = category.toLowerCase();
 
-  {
-    id: "infrastructure",
-    title: "Review irrigation infrastructure",
-    category: "Infrastructure",
-    shortDescription:
-      "Check your irrigation system for leaks and uneven water delivery.",
-    explanation:
-      "Leaks, pressure issues and uneven distribution can increase the amount of water required to achieve the desired crop outcome.",
-    actions: [
-      "Inspect irrigation lines",
-      "Check pressure consistency",
-      "Identify damaged equipment",
-    ],
-    impact: "medium",
-    difficulty: "easy",
-    estimatedWaterReductionPct: 8,
-  },
+  if (key.includes("maintenance")) {
+    return "This strategy may help reduce avoidable water losses by improving irrigation system efficiency and identifying leaks or uneven delivery.";
+  }
 
-  {
-    id: "weather",
-    title: "Use weather-led planning",
-    category: "Planning",
-    shortDescription:
-      "Consider current and expected conditions before applying water.",
-    explanation:
-      "Weather information provides useful context around rainfall, temperature and evaporation when planning irrigation.",
-    actions: [
-      "Review rainfall forecasts",
-      "Track recent rainfall",
-      "Adjust irrigation after significant rainfall",
-    ],
-    impact: "medium",
-    difficulty: "easy",
-    estimatedWaterReductionPct: 7,
-  },
+  if (key.includes("monitor")) {
+    return "This strategy may help match irrigation more closely to crop need by using better information to time watering.";
+  }
 
-  {
-    id: "application",
-    title: "Review application rates",
-    category: "Operations",
-    shortDescription:
-      "Track your water application rate against similar farms.",
-    explanation:
-      "Regular monitoring can help identify when water application is moving away from typical values for similar agricultural operations.",
-    actions: [
-      "Track ML/ha across irrigation periods",
-      "Compare results with your benchmark",
-      "Review major changes in water intensity",
-    ],
-    impact: "high",
-    difficulty: "easy",
-    estimatedWaterReductionPct: 12,
-  },
+  if (key.includes("automat")) {
+    return "This strategy may help reduce over-application by improving control of when water is delivered.";
+  }
 
-  {
-    id: "crop-selection",
-    title: "Review crop water demand",
-    category: "Cropping",
+  if (key.includes("agronom")) {
+    return "This strategy may help the farm use applied water more effectively through agronomic practice rather than extra water input.";
+  }
+
+  return "This strategy may help the farm use water more efficiently by changing how irrigation is managed or delivered.";
+}
+
+/* =========================================================
+   BACKEND -> FRONTEND CONVERTER
+   ========================================================= */
+
+export function strategyToSuggestion(
+  strategy: BackendStrategy
+): Suggestion {
+  const savingPct =
+    (strategy.savings_pct_applied ?? 0) * 100;
+
+  /*
+    These are currently frontend display categories.
+
+    They do NOT affect the backend optimiser.
+  */
+  let impact: Suggestion["impact"] = "low";
+
+  if (savingPct >= 15) {
+    impact = "high";
+  } else if (savingPct >= 7) {
+    impact = "medium";
+  }
+
+  const disruption =
+    strategy.implementation_disruption
+      ?.toLowerCase() ?? "";
+
+  let difficulty: Suggestion["difficulty"] =
+    "moderate";
+
+  if (
+    disruption.includes("low") ||
+    disruption.includes("easy")
+  ) {
+    difficulty = "easy";
+  } else if (
+    disruption.includes("high") ||
+    disruption.includes("advanced")
+  ) {
+    difficulty = "advanced";
+  }
+
+  return {
+    id: strategy.id,
+    title: strategy.name,
+    category: strategy.category,
+
     shortDescription:
-      "Understand how crop demand changes across growing conditions.",
-    explanation:
-      "Reviewing crop water requirements can help provide context for irrigation decisions throughout the growing cycle.",
+      `Estimated to save ${strategy.estimated_savings_ml.toFixed(
+        2
+      )} ML of water annually.`,
+
+    explanation: whyThisMayHelp(strategy.category),
+
     actions: [
-      "Review crop water requirements",
-      "Compare seasonal water demand",
-      "Track changes throughout the growing cycle",
+      `Review ${strategy.name}`,
+      `Consider the estimated annual cost of ${formatAud(
+        strategy.annual_cost_aud
+      )}`,
+      `Review the supporting source before implementation`,
     ],
-    impact: "low",
-    difficulty: "moderate",
-    estimatedWaterReductionPct: 5,
-  },
-];
+
+    impact,
+    difficulty,
+
+    estimatedWaterReductionPct: savingPct,
+    annualCostAud: strategy.annual_cost_aud,
+    estimatedSavingsMl: strategy.estimated_savings_ml,
+    confidence: strategy.confidence,
+    source: strategy.source,
+  };
+}
+
+/* =========================================================
+   IMPACT COLOURS
+   ========================================================= */
 
 const impactColour = {
   high: "#65c995",
@@ -148,9 +222,14 @@ const impactColour = {
   low: "#f19a93",
 };
 
+/* =========================================================
+   COMPONENT
+   ========================================================= */
+
 export default function Suggestions({
-  suggestions = fallbackSuggestions,
+  suggestions = [],
   currentWaterUse,
+  businessData = null,
   onBack,
 }: SuggestionsProps) {
   const [rotation, setRotation] =
@@ -159,21 +238,155 @@ export default function Suggestions({
   const [isDragging, setIsDragging] =
     useState(false);
 
+  const [items, setItems] =
+    useState<Suggestion[]>(suggestions);
+
+  const [budgetAud, setBudgetAud] =
+    useState(
+      businessData?.budgetAud ??
+        DEFAULT_BUDGET_AUD
+    );
+
+  const [isUpdating, setIsUpdating] =
+    useState(false);
+
+  const [updateError, setUpdateError] =
+    useState<string | null>(null);
+
+  const [summary, setSummary] =
+    useState<RecommendationSummary | null>(
+      null
+    );
+
   const dragStartX = useRef(0);
-
   const dragStartRotation = useRef(0);
+  const skipInitialFetch = useRef(true);
 
-  const cardCount = suggestions.length;
+  useEffect(() => {
+    setItems(suggestions);
+  }, [suggestions]);
+
+  useEffect(() => {
+    setRotation(0);
+  }, [items]);
+
+  useEffect(() => {
+    if (!businessData) {
+      return;
+    }
+
+    if (skipInitialFetch.current) {
+      skipInitialFetch.current = false;
+      return;
+    }
+
+    const controller = new AbortController();
+    let cancelled = false;
+
+    const timeout = window.setTimeout(async () => {
+      setIsUpdating(true);
+      setUpdateError(null);
+
+      try {
+        const response = await fetch(
+          "/api/recommend-strategies",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            signal: controller.signal,
+            body: JSON.stringify({
+              location: {
+                postcode: businessData.location.postcode,
+                suburb: businessData.location.suburb,
+                state: businessData.location.state,
+              },
+              cropCategory: businessData.cropCategory,
+              waterUsed: businessData.waterUsed,
+              landArea: businessData.landArea,
+              currentIrrigationMethod:
+                businessData.currentIrrigationMethod ??
+                "unknown",
+              budgetAud,
+            }),
+          }
+        );
+
+        const text = await response.text();
+
+        if (!response.ok) {
+          throw new Error(
+            `${response.status} ${response.statusText} — ${text}`
+          );
+        }
+
+        const data: RecommendationResponse =
+          JSON.parse(text);
+
+        if (cancelled) {
+          return;
+        }
+
+        setItems(
+          data.selected_strategies.map(
+            strategyToSuggestion
+          )
+        );
+
+        setSummary({
+          strategyCount:
+            data.selected_strategies.length,
+          totalAnnualCostAud:
+            data.total_annual_cost_aud,
+          totalEstimatedSavingsMl:
+            data.total_estimated_savings_ml,
+        });
+      } catch (error) {
+        if (
+          cancelled ||
+          (error instanceof DOMException &&
+            error.name === "AbortError")
+        ) {
+          return;
+        }
+
+        console.error(
+          "Unable to update recommendations:",
+          error
+        );
+        setUpdateError(
+          "Unable to update recommendations. Please try again."
+        );
+      } finally {
+        if (!cancelled) {
+          setIsUpdating(false);
+        }
+      }
+    }, BUDGET_DEBOUNCE_MS);
+
+    return () => {
+      cancelled = true;
+      controller.abort();
+      window.clearTimeout(timeout);
+    };
+  }, [budgetAud, businessData]);
+
+  const cardCount = items.length;
 
   const anglePerCard =
-    cardCount > 0 ? 360 / cardCount : 0;
+    cardCount > 0
+      ? 360 / cardCount
+      : 0;
 
-  /*
-    Find which recommendation is currently
-    closest to the front of the wheel.
-  */
+  /* =======================================================
+     ACTIVE CARD
+     ======================================================= */
+
   const activeIndex = useMemo(() => {
-    if (!cardCount) return 0;
+    if (!cardCount) {
+      return 0;
+    }
 
     const normalised =
       ((-rotation % 360) + 360) % 360;
@@ -190,31 +403,59 @@ export default function Suggestions({
   ]);
 
   const selected =
-    suggestions[activeIndex];
+    items[activeIndex];
 
-  const rotateTo = (index: number) => {
-    setRotation(-index * anglePerCard);
+  /* =======================================================
+     ROTATION
+     ======================================================= */
+
+  const rotateTo = (
+    index: number
+  ) => {
+    if (!cardCount) {
+      return;
+    }
+
+    setRotation(
+      -index * anglePerCard
+    );
   };
 
   const rotateNext = () => {
+    if (!cardCount) {
+      return;
+    }
+
     rotateTo(
       (activeIndex + 1) %
-        suggestions.length
+        cardCount
     );
   };
 
   const rotatePrevious = () => {
+    if (!cardCount) {
+      return;
+    }
+
     rotateTo(
       (activeIndex -
         1 +
-        suggestions.length) %
-        suggestions.length
+        cardCount) %
+        cardCount
     );
   };
+
+  /* =======================================================
+     DRAGGING
+     ======================================================= */
 
   const handlePointerDown = (
     event: React.PointerEvent<HTMLDivElement>
   ) => {
+    if (!cardCount) {
+      return;
+    }
+
     dragStartX.current =
       event.clientX;
 
@@ -231,16 +472,14 @@ export default function Suggestions({
   const handlePointerMove = (
     event: React.PointerEvent<HTMLDivElement>
   ) => {
-    if (!isDragging) return;
+    if (!isDragging) {
+      return;
+    }
 
     const difference =
       event.clientX -
       dragStartX.current;
 
-    /*
-      Change 0.25 if you want
-      faster/slower dragging.
-    */
     setRotation(
       dragStartRotation.current +
         difference * 0.25
@@ -248,13 +487,15 @@ export default function Suggestions({
   };
 
   const handlePointerUp = () => {
-    if (!isDragging) return;
+    if (
+      !isDragging ||
+      !cardCount
+    ) {
+      return;
+    }
 
     setIsDragging(false);
 
-    /*
-      Snap to nearest card.
-    */
     const nearest =
       Math.round(
         rotation / anglePerCard
@@ -263,9 +504,10 @@ export default function Suggestions({
     setRotation(nearest);
   };
 
-  /*
-    Keyboard support.
-  */
+  /* =======================================================
+     KEYBOARD
+     ======================================================= */
+
   useEffect(() => {
     const handleKeyboard = (
       event: KeyboardEvent
@@ -292,8 +534,148 @@ export default function Suggestions({
     };
   });
 
+  const budgetControl = (
+    <div className="budget-control">
+      <div className="budget-control-header">
+        <label htmlFor="annual-budget">
+          Annual budget
+        </label>
+        <strong>{formatAud(budgetAud)}</strong>
+      </div>
+
+      <input
+        id="annual-budget"
+        className="budget-slider"
+        type="range"
+        min={BUDGET_MIN}
+        max={BUDGET_MAX}
+        step={BUDGET_STEP}
+        value={budgetAud}
+        onChange={(event) => {
+          setBudgetAud(Number(event.target.value));
+        }}
+      />
+
+      <div className="budget-control-range">
+        <span>{formatAud(BUDGET_MIN)}</span>
+        <span>{formatAud(BUDGET_MAX)}</span>
+      </div>
+
+      {summary && (
+        <p className="budget-summary">
+          Selected budget: {formatAud(budgetAud)}
+          {" · "}
+          Recommended strategies: {summary.strategyCount}
+          {" · "}
+          Estimated annual cost:{" "}
+          {formatAud(summary.totalAnnualCostAud)}
+          {" · "}
+          Estimated water saving:{" "}
+          {summary.totalEstimatedSavingsMl.toLocaleString(
+            "en-AU"
+          )}{" "}
+          ML
+        </p>
+      )}
+
+      {isUpdating && (
+        <p className="budget-status">
+          Updating recommendations…
+        </p>
+      )}
+
+      {updateError && (
+        <p className="budget-error">
+          {updateError}
+        </p>
+      )}
+    </div>
+  );
+
+  const pageIntro = (
+    <div className="relative z-20 mx-auto flex w-full max-w-[1320px] items-start justify-between gap-6 pt-5">
+
+      <div className="suggestions-intro glass-intro relative z-30">
+
+        {onBack && (
+          <button
+            type="button"
+            onClick={onBack}
+            className="mb-7 text-sm font-medium text-[#72789c] transition hover:text-[#555b78]"
+          >
+            ← Back to comparison
+          </button>
+        )}
+
+        <p className="mb-3 text-xs font-bold tracking-[0.18em] text-[#7f78db]">
+          RECOMMENDED ACTIONS
+        </p>
+
+        <h1 className="text-4xl font-medium leading-[1.04] tracking-[-0.045em] md:text-5xl">
+          Explore your
+          <br />
+          opportunities
+        </h1>
+
+        <p className="mt-4 max-w-[330px] text-[15px] leading-6 text-[#7d829a]">
+          Drag the circle to explore
+          actions. Click any action to
+          view its details and potential
+          impact.
+        </p>
+
+        {budgetControl}
+
+      </div>
+
+      <div className="mt-20 hidden items-center gap-5 text-xs md:flex">
+
+        <div className="flex items-center gap-2">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#65c995]" />
+          <span>
+            Higher potential impact
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#8997c1]" />
+          <span>
+            Medium potential impact
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#f19a93]" />
+          <span>
+            Lower potential impact
+          </span>
+        </div>
+
+      </div>
+    </div>
+  );
+
   if (!selected) {
-    return null;
+    return (
+      <section className="relative w-full overflow-x-hidden px-6 pb-10 text-[#555b78]">
+        {pageIntro}
+
+        <div className="mx-auto mt-10 w-full max-w-[1180px] rounded-[26px] border border-[#dcdde8] bg-white/75 p-8 text-center backdrop-blur-xl">
+          <p className="text-xs font-bold tracking-[0.18em] text-[#7f78db]">
+            RECOMMENDED ACTIONS
+          </p>
+
+          <h2 className="mt-3 text-2xl font-medium">
+            No recommendations available
+          </h2>
+
+          <p className="mt-2 text-sm text-[#7d829a]">
+            No strategies were found
+            within the selected budget.
+          </p>
+        </div>
+      </section>
+    );
   }
 
   const reduction =
@@ -307,74 +689,18 @@ export default function Suggestions({
   return (
     <section className="relative w-full overflow-x-hidden px-6 pb-10 text-[#555b78]">
 
-      {/* ============================= */}
-      {/* PAGE INTRO */}
-      {/* ============================= */}
+      {pageIntro}
 
-      <div className="relative z-20 mx-auto flex w-full max-w-[1320px] items-start justify-between gap-6 pt-5">
-        <div className="suggestions-intro glass-intro relative z-30 max-w-[340px]">
-        {onBack && (
-            <button
-            type="button"
-            onClick={onBack}
-            className="mb-7 text-sm font-medium text-[#72789c] transition hover:text-[#555b78]"
-            >
-            ← Back to comparison
-            </button>
-        )}
-
-        <p className="mb-3 text-xs font-bold tracking-[0.18em] text-[#7f78db]">
-            RECOMMENDED ACTIONS
-        </p>
-
-        <h1 className="text-4xl font-medium leading-[1.04] tracking-[-0.045em] md:text-5xl">
-            Explore your
-            <br />
-            opportunities
-
-        </h1>
-
-        <p className="mt-4 max-w-[330px] text-[15px] leading-6 text-[#7d829a]">
-            Drag the circle to explore actions.
-            Click any action to view its details
-            and potential impact.
-        </p>
-    </div>
-
-        <div className="mt-20 hidden items-center gap-5 text-xs md:flex">
-          <div className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#65c995]" />
-
-            <span>
-              Higher potential impact
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#8997c1]" />
-            <span>Medium potential impact</span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#f19a93]" />
-
-            <span>
-              Lower potential impact
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* ============================= */}
+      {/* ================================================ */}
       {/* 3D RECOMMENDATION WHEEL */}
-      {/* ============================= */}
+      {/* ================================================ */}
 
       <div
         className={`suggestion-stage ${
           isDragging
             ? "is-dragging"
             : ""
-        }`}
+        }${isUpdating ? " is-updating" : ""}`}
         onPointerDown={
           handlePointerDown
         }
@@ -388,9 +714,11 @@ export default function Suggestions({
           handlePointerUp
         }
       >
+
         {/* FLOOR */}
 
         <div className="suggestion-floor">
+
           <div className="floor-ring ring-1" />
           <div className="floor-ring ring-2" />
           <div className="floor-ring ring-3" />
@@ -409,22 +737,27 @@ export default function Suggestions({
               }}
             />
           ))}
+
         </div>
 
         {/* ACTUAL CAROUSEL */}
 
         <div className="wheel-camera">
+
           <div
             className="recommendation-wheel"
             style={{
-              transform: `rotateY(${rotation}deg)`,
+              transform:
+                `rotateY(${rotation}deg)`,
+
               transition:
                 isDragging
                   ? "none"
                   : undefined,
             }}
           >
-            {suggestions.map(
+
+            {items.map(
               (
                 suggestion,
                 index
@@ -459,11 +792,16 @@ export default function Suggestions({
                     ) => {
                       event.stopPropagation();
 
-                      rotateTo(index);
+                      rotateTo(
+                        index
+                      );
                     }}
                   >
+
                     <div className="flex h-full flex-col">
+
                       <div className="flex items-center justify-between">
+
                         <span className="rounded-full bg-[#f3f2fb] px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[#7774c8]">
                           {
                             suggestion.category
@@ -480,15 +818,16 @@ export default function Suggestions({
                               ],
                           }}
                         />
+
                       </div>
 
-                      <h3 className="mt-5 text-left text-xl font-medium leading-tight tracking-[-0.035em]">
+                      <h3 className="mt-2 text-left text-xl font-medium leading-tight tracking-[-0.035em]">
                         {
                           suggestion.title
                         }
                       </h3>
 
-                      <p className="mt-3 flex-1 text-left text-xs leading-5 text-[#85899e]">
+                      <p className="mt-2 text-left text-xs leading-5 text-[#85899e]">
                         {
                           suggestion.shortDescription
                         }
@@ -496,7 +835,8 @@ export default function Suggestions({
 
                       {suggestion.estimatedWaterReductionPct !=
                         null && (
-                        <div className="mt-5 rounded-xl bg-white/60 p-3 text-left">
+                        <div className="mt-auto rounded-xl bg-white/60 px-3 py-2 text-left">
+
                           <strong className="block text-lg font-medium text-[#45a976]">
                             ↑{" "}
                             {
@@ -506,30 +846,29 @@ export default function Suggestions({
                           </strong>
 
                           <span className="text-[10px] text-[#75a68a]">
-                            Potential
-                            water
+                            Potential water
                             saving
                           </span>
+
                         </div>
                       )}
 
                     </div>
+
                   </button>
                 );
               }
             )}
+
           </div>
         </div>
 
-
-        {/* LEFT / RIGHT CONTROLS */}
+        {/* LEFT CONTROL */}
 
         <button
           type="button"
           className="wheel-arrow left"
-          onClick={(
-            event
-          ) => {
+          onClick={(event) => {
             event.stopPropagation();
             rotatePrevious();
           }}
@@ -538,12 +877,12 @@ export default function Suggestions({
           ←
         </button>
 
+        {/* RIGHT CONTROL */}
+
         <button
           type="button"
           className="wheel-arrow right"
-          onClick={(
-            event
-          ) => {
+          onClick={(event) => {
             event.stopPropagation();
             rotateNext();
           }}
@@ -554,160 +893,118 @@ export default function Suggestions({
 
       </div>
 
-      {/* ============================= */}
+      {/* ================================================ */}
       {/* ACTIVE SUGGESTION DETAILS */}
-      {/* ============================= */}
+      {/* ================================================ */}
 
-      <div className="mx-auto 2 grid w-full max-w-[1180px] overflow-hidden rounded-[26px] border border-[#dcdde8] bg-white/75 shadow-[0_18px_55px_rgba(85,91,120,0.08)] backdrop-blur-xl lg:grid-cols-[1.5fr_1.7fr_0.8fr]">
+      <div className="selected-strategy-panel mx-auto mt-8 w-full max-w-[1180px]">
 
-        {/* DESCRIPTION */}
+        <div className="selected-strategy-main">
 
-        <div className="border-b border-[#e7e7ee] px-6 py-4 lg:border-b-0 lg:border-r">
-          <div className="mb-3 flex items-center gap-2">
+          <div className="selected-strategy-copy">
+
             <span className="rounded-lg bg-[#eeecff] px-2 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#736bd8]">
               {selected.category}
             </span>
-          </div>
 
-          <h2 className="text-2xl font-medium tracking-[-0.035em]">
-            {selected.title}
-          </h2>
+            <h2 className="selected-strategy-title">
+              {selected.title}
+            </h2>
 
-          <p className="mt-2 text-sm leading-6 text-[#7e839a]">
-            {
-              selected.shortDescription
-            }
-          </p>
-        </div>
-
-        {/* IMPACT */}
-
-        <div className="border-b border-[#e7e7ee] px-6 py-4 lg:border-b-0 lg:border-r">
-          <p className="mb-2 text-[10px] font-bold tracking-[0.16em] text-[#8178db]">
-            POTENTIAL IMPACT
-          </p>
-
-          <div className="flex items-center justify-between gap-5">
-            <div>
-              <strong className="text-3xl font-medium text-[#42a976]">
-                {selected.estimatedWaterReductionPct !=
-                null
-                  ? `${selected.estimatedWaterReductionPct}%`
-                  : "—"}
-              </strong>
-
-              <span className="mt-1 block text-xs text-[#85899d]">
-                Water saving
-              </span>
-            </div>
-
-            <div>
-              <strong className="block text-xl font-medium">
-                {currentWaterUse.toFixed(
-                  2
-                )}{" "}
-                <small className="text-xs font-normal">
-                  ML/ha
-                </small>
-              </strong>
-
-              <span className="text-xs text-[#9295a5]">
-                Current use
-              </span>
-            </div>
-
-            <span className="text-xl text-[#bbbcca]">
-              →
-            </span>
-
-            <div>
-              <strong className="block text-xl font-medium">
-                {potentialWaterUse.toFixed(
-                  2
-                )}{" "}
-                <small className="text-xs font-normal">
-                  ML/ha
-                </small>
-              </strong>
-
-              <span className="text-xs text-[#9295a5]">
-                Potential use
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* DIFFICULTY */}
-
-        <div className="p-7">
-          <p className="mb-2 text-[10px] font-bold tracking-[0.16em] text-[#8178db]">
-            IMPLEMENTATION
-          </p>
-
-          <strong className="capitalize">
-            {selected.difficulty}
-          </strong>
-
-          <p className="mt-2 text-xs leading-5 text-[#8b8fa3]">
-            Review the detailed
-            recommendation before
-            making operational
-            changes.
-          </p>
-        </div>
-      </div>
-
-      {/* ============================= */}
-      {/* EXPANDED ACTIONS */}
-      {/* ============================= */}
-
-      <div className="mx-auto mt-4 w-full max-w-[1180px] rounded-[24px] border border-[#e1e2ea] bg-white/55 p-7 backdrop-blur-xl">
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr]">
-          <div>
-            <p className="text-[10px] font-bold tracking-[0.16em] text-[#8178db]">
+            <p className="why-help-kicker why-help-heading">
               WHY THIS MAY HELP
             </p>
 
-            <p className="mt-3 max-w-[650px] text-sm leading-6 text-[#777c92]">
-              {
-                selected.explanation
-              }
-            </p>
-          </div>
-
-          <div>
-            <p className="mb-3 text-[10px] font-bold tracking-[0.16em] text-[#8178db]">
-              WHAT YOU COULD DO
+            <p className="why-help-copy">
+              {selected.explanation}
             </p>
 
-            {selected.actions.map(
-              (
-                action,
-                index
-              ) => (
-                <div
-                  key={action}
-                  className="flex gap-4 border-t border-[#e6e6ec] py-3"
-                >
-                  <span className="text-[10px] font-bold text-[#8d87d8]">
-                    {String(
-                      index +
-                        1
-                    ).padStart(
-                      2,
-                      "0"
-                    )}
-                  </span>
-
-                  <p className="m-0 text-sm">
-                    {action}
-                  </p>
-                </div>
-              )
-            )}
           </div>
+
+          <div className="selected-strategy-metrics">
+
+            <p className="why-help-kicker">
+              POTENTIAL IMPACT
+            </p>
+
+            <div className="selected-strategy-impact">
+
+              <div>
+                <strong className="saving-value">
+                  {selected.estimatedWaterReductionPct !=
+                  null
+                    ? `${selected.estimatedWaterReductionPct}%`
+                    : "—"}
+                </strong>
+                <span>Water saving</span>
+              </div>
+
+              <div>
+                <strong>
+                  {currentWaterUse.toFixed(2)}{" "}
+                  <small>ML/ha</small>
+                </strong>
+                <span>Current use</span>
+              </div>
+
+              <span className="impact-arrow">→</span>
+
+              <div>
+                <strong>
+                  {potentialWaterUse.toFixed(2)}{" "}
+                  <small>ML/ha</small>
+                </strong>
+                <span>Potential use</span>
+              </div>
+
+            </div>
+
+            <div className="why-help-stats">
+
+              <div className="why-help-stat">
+                <span>Estimated annual cost</span>
+                <strong>
+                  {selected.annualCostAud != null
+                    ? formatAud(selected.annualCostAud)
+                    : "—"}
+                </strong>
+              </div>
+
+              <div className="why-help-stat saving">
+                <span>Estimated water saving</span>
+                <strong>
+                  {selected.estimatedSavingsMl != null
+                    ? `${formatMl(selected.estimatedSavingsMl)} ML`
+                    : "—"}
+                </strong>
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
+
+        <div className="why-help-meta">
+          <p>
+            <span>Confidence</span>
+            <strong className="capitalize">
+              {selected.confidence || "Not specified"}
+            </strong>
+          </p>
+
+          {selected.source && (
+            <p>
+              <span>Source</span>
+              <strong className="why-help-source">
+                {selected.source}
+              </strong>
+            </p>
+          )}
+        </div>
+
       </div>
+
     </section>
   );
 }

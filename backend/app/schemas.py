@@ -66,6 +66,14 @@ class BenchmarkResult(BaseModel):
     stdev_ml_per_ha: float | None
     rating: str                        # efficient | typical | high water use | unknown
     note: str | None
+    allocation_factor: float | None = None
+    rainfall_factor: float | None = None
+    adjusted_risk_score: float | None = None
+    risk_drivers: list[str] = []
+    water_source: str | None = None
+    water_allocation_pct_vs_historic: float | None = None
+    weather_status: str | None = None
+    weather_summary: dict | None = None
 
 
 class AnalyseOut(BaseModel):
@@ -89,6 +97,7 @@ class BusinessData(BaseModel):
 
 class RiskResult(BaseModel):
     z_score: float | None
+    risk_score: float | None = None
     risk_level: str
     user_ml_per_ha: float
     benchmark_mean: float | None
@@ -96,6 +105,9 @@ class RiskResult(BaseModel):
     sample_size: int | None
     lls_region: str | None
     valley_name: str | None
+    allocation_factor: float = 1.0
+    rainfall_factor: float = 1.0
+    risk_drivers: list[str] = []
 
 
 class StrategyRecommendation(BaseModel):

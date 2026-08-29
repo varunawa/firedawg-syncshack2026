@@ -1,6 +1,9 @@
 import { useState } from "react";
 import "./Scenarios.css";
-import Suggestions from "../suggestions/Suggestions";
+import Suggestions, {
+  type Suggestion,
+  type BusinessData,
+} from "../suggestions/Suggestions";
 
 export interface BenchmarkResult {
   benchmark_water_intensity_ml_per_ha: number | null;
@@ -18,12 +21,22 @@ export interface BenchmarkResult {
   stdev_ml_per_ha: number | null;
   user_water_intensity_ml_per_ha: number;
   z_score: number | null;
+  water_source: string | null;
+  water_allocation_pct_vs_historic: number | null;
+  weather_status: string | null;
+  weather_summary: {
+    seven_day_rainfall_mm?: number | null;
+    climatic_water_deficit_mm?: number | null;
+  } | null;
 }
 
 interface ScenarioProps {
   benchmark: BenchmarkResult;
   summary?: string | null;
   summaryLoading?: boolean;
+  suggestions: Suggestion[];
+  businessData?: BusinessData | null;
+  onEditDetails?: () => void;
 }
 
 type View =
@@ -31,6 +44,32 @@ type View =
   | "position"
   | "peers"
   | "suggestions";
+
+type RatingTier = "low" | "moderate" | "high" | "unknown";
+
+function getRatingTier(rating: string): RatingTier {
+  const normalized = rating.toLowerCase();
+
+  if (normalized.includes("high")) {
+    return "high";
+  }
+
+  if (
+    normalized.includes("efficient") ||
+    normalized.includes("low")
+  ) {
+    return "low";
+  }
+
+  if (
+    normalized.includes("typical") ||
+    normalized.includes("moderate")
+  ) {
+    return "moderate";
+  }
+
+  return "unknown";
+}
 
 const views: View[] = [
   "snapshot",
@@ -43,9 +82,18 @@ export default function Scenarios({
   benchmark,
   summary,
   summaryLoading,
+  suggestions,
+  businessData,
+  onEditDetails,
 }: ScenarioProps) {
+    console.log(
+    "SCENARIOS RECEIVED SUGGESTIONS:",
+    suggestions
+  );
   const [activeView, setActiveView] =
     useState<View>("snapshot");
+
+  const ratingTier = getRatingTier(benchmark.rating);
 
   const currentUse =
     benchmark.user_water_intensity_ml_per_ha;
@@ -109,14 +157,50 @@ export default function Scenarios({
         )
       : 50;
 
+  const allocationValue =
+    benchmark.water_allocation_pct_vs_historic != null &&
+    Number.isFinite(benchmark.water_allocation_pct_vs_historic)
+      ? benchmark.water_allocation_pct_vs_historic
+      : null;
+
+  const allocationText =
+    allocationValue !== null
+      ? `${Math.abs(allocationValue).toFixed(1)}% ${
+          allocationValue < 0 ? "below" : "above"
+        } historic`
+      : "Historic allocation unavailable";
+
+  const weatherText =
+    benchmark.weather_status
+      ? benchmark.weather_status.charAt(0).toUpperCase() + benchmark.weather_status.slice(1)
+      : "Weather unavailable";
+
+  const rainfallMm =
+    benchmark.weather_summary?.seven_day_rainfall_mm != null &&
+    Number.isFinite(benchmark.weather_summary.seven_day_rainfall_mm)
+      ? benchmark.weather_summary.seven_day_rainfall_mm
+      : null;
+  const deficitMm =
+    benchmark.weather_summary?.climatic_water_deficit_mm != null &&
+    Number.isFinite(benchmark.weather_summary.climatic_water_deficit_mm)
+      ? benchmark.weather_summary.climatic_water_deficit_mm
+      : null;
+
   return (
     <main
-        className={`scenarios ${
-            activeView === "suggestions"
-            ? "suggestions-active"
+        className={`scenarios${
+          activeView === "suggestions"
+            ? " suggestions-active"
             : ""
         }`}
-    >
+  >
+        <button
+            type="button"
+            onClick={onEditDetails}
+            className="edit-details-button"
+            >
+            ↻ Edit farm details
+        </button>
       <div className="scenario-shell">
 
         {/* TOP NAVIGATION */}
@@ -212,7 +296,9 @@ export default function Scenarios({
                 </p>
               )}
 
-              <div className="snapshot-rating">
+              <div
+                className={`snapshot-rating rating-${ratingTier}`}
+              >
                 <span>Overall rating</span>
 
                 <strong>
@@ -242,6 +328,32 @@ export default function Scenarios({
 
                     {regionalBenchmark !== null && (
                       <small> ML/ha</small>
+                    )}
+                  </strong>
+                </div>
+              </div>
+
+              <div className="snapshot-context-grid">
+                <div className="mini-metric">
+                  <span>Water source</span>
+                  <strong>{benchmark.water_source || "N/A"}</strong>
+                </div>
+
+                <div className="snapshot-divider" />
+
+                <div className="mini-metric">
+                  <span>Allocation</span>
+                  <strong>{allocationText}</strong>
+                </div>
+
+                <div className="snapshot-divider" />
+
+                <div className="mini-metric">
+                  <span>Weather</span>
+                  <strong>
+                    {weatherText}
+                    {rainfallMm !== null && (
+                      <small> · {rainfallMm.toFixed(1)} mm rain</small>
                     )}
                   </strong>
                 </div>
@@ -282,7 +394,9 @@ export default function Scenarios({
                     </strong>
                   </div>
 
-                  <div className="difference-pill">
+                  <div
+                    className={`difference-pill rating-${ratingTier}`}
+                  >
                     {differenceText}
                   </div>
                 </div>
@@ -291,7 +405,7 @@ export default function Scenarios({
                   <div className="scale-track" />
 
                   <div
-                    className="scale-marker user-marker"
+                    className={`scale-marker user-marker rating-${ratingTier}`}
                     style={{
                       left: `${userPosition}%`,
                     }}
@@ -377,7 +491,7 @@ export default function Scenarios({
 
                   {benchmark.percentile !== null && (
                     <div
-                      className="peer-marker"
+                      className={`peer-marker rating-${ratingTier}`}
                       style={{
                         left: `${percentilePosition}%`,
                       }}
@@ -437,7 +551,9 @@ export default function Scenarios({
         {/* SUGGESTIONS */}
         {activeView === "suggestions" && (
           <Suggestions
+            suggestions={suggestions}
             currentWaterUse={currentUse}
+            businessData={businessData}
             onBack={() =>
               setActiveView("peers")
             }
