@@ -27,3 +27,7 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 *.swp
+
+# Ignore massive raw hackathon data source assets
+backend/australian_postcodes.csv
+backend/cewo_mdb_valleys.geojson
