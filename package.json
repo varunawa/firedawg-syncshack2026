@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "frontend": "npm --prefix frontend run dev",
+    "backend": "cd backend && WATERNSW_API_KEY=dummy WATERNSW_API_SECRET=dummy .venv/bin/uvicorn app.main:app --reload --port 8000",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
