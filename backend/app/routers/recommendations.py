@@ -4,7 +4,14 @@ from app.schemas import BusinessData, RecommendationResult, StrategyRecommendati
 from app.services.data_loader import RiskDataStore, get_data_store
 from app.services.strategy_loader import StrategyCatalog, get_strategy_catalog
 from app.services.optimizer import select_optimal_strategies, OptimizationResult
-from app.services.risk import compute_z_score, bucket_risk
+from app.services.risk import (
+    bucket_risk,
+    compute_adjusted_risk_score,
+    compute_z_score,
+    estimate_allocation_factor,
+    estimate_rainfall_factor,
+)
+from app.services.weather import geocode_location, get_weather_data
 
 router = APIRouter()
 
@@ -21,7 +28,7 @@ def _target_savings_ml(user_ml_per_ha: float, mean: float, std: float,
 
 
 @router.post("/recommend-strategies", response_model=RecommendationResult)
-def recommend_strategies(
+async def recommend_strategies(
     data: BusinessData,
     store: RiskDataStore = Depends(get_data_store),
     catalog: StrategyCatalog = Depends(get_strategy_catalog),
@@ -39,13 +46,44 @@ def recommend_strategies(
     if stats is None or stats["n"] < 1:
         raise HTTPException(422, "Insufficient benchmark data for this LLS/crop combination.")
 
+    weather_summary = None
+    if data.location.suburb:
+        place_name = ", ".join(part for part in [data.location.suburb, data.location.state or "NSW"] if part)
+        try:
+            geo = await geocode_location(place_name)
+            weather = await get_weather_data(geo["latitude"], geo["longitude"])
+            weather_summary = weather.get("summary")
+        except Exception:
+            weather_summary = None
+
+    allocation_factor = estimate_allocation_factor(lls_info["region_id"])
+    rainfall_factor = estimate_rainfall_factor(weather_summary)
+
     z = compute_z_score(user_ml_per_ha, stats["mean"], stats["std"])
-    risk_level = bucket_risk(z)
+    adjusted_risk_score = compute_adjusted_risk_score(z, allocation_factor, rainfall_factor)
+    risk_level = bucket_risk(z, allocation_factor * rainfall_factor)
+
+    risk_drivers: list[str] = []
+    if allocation_factor > 1.0:
+        risk_drivers.append(f"Water allocation is running below the region's recent historic level ({allocation_factor:.2f}x stress factor).")
+    if rainfall_factor > 1.0:
+        risk_drivers.append(
+            f"Rainfall and evaporative demand are creating dry conditions ({rainfall_factor:.2f}x stress factor)."
+        )
 
     risk = RiskResult(
-        z_score=z, risk_level=risk_level, user_ml_per_ha=user_ml_per_ha,
-        benchmark_mean=stats["mean"], benchmark_std=stats["std"], sample_size=stats["n"],
-        lls_region=lls_info["region_id"], valley_name=lls_info["valley_name"],
+        z_score=z,
+        risk_score=adjusted_risk_score,
+        risk_level=risk_level,
+        user_ml_per_ha=user_ml_per_ha,
+        benchmark_mean=stats["mean"],
+        benchmark_std=stats["std"],
+        sample_size=stats["n"],
+        lls_region=lls_info["region_id"],
+        valley_name=lls_info["valley_name"],
+        allocation_factor=allocation_factor,
+        rainfall_factor=rainfall_factor,
+        risk_drivers=risk_drivers,
     )
 
     target_ml = _target_savings_ml(user_ml_per_ha, stats["mean"], stats["std"], data.landArea, risk_level)

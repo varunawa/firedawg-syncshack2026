@@ -176,6 +176,14 @@ class Comparison:
     stdev_ml_per_ha: float | None
     rating: str
     note: str | None
+    allocation_factor: float | None = None
+    rainfall_factor: float | None = None
+    adjusted_risk_score: float | None = None
+    risk_drivers: list[str] | None = None
+    water_source: str | None = None
+    water_allocation_pct_vs_historic: float | None = None
+    weather_status: str | None = None
+    weather_summary: dict | None = None
 
 
 def compare(
@@ -185,6 +193,14 @@ def compare(
     crop_category: str,
     water_used_ml: float,
     land_area_ha: float,
+    allocation_factor: float | None = None,
+    rainfall_factor: float | None = None,
+    adjusted_risk_score: float | None = None,
+    risk_drivers: list[str] | None = None,
+    water_source: str | None = None,
+    water_allocation_pct_vs_historic: float | None = None,
+    weather_status: str | None = None,
+    weather_summary: dict | None = None,
 ) -> Comparison:
     """Full benchmark comparison for one farm's inputs."""
     if land_area_ha <= 0:
@@ -225,4 +241,12 @@ def compare(
         stdev_ml_per_ha=zs.stdev if zs else None,
         rating=_rating(zs.z if zs else None),
         note=bench.note,
+        allocation_factor=allocation_factor,
+        rainfall_factor=rainfall_factor,
+        adjusted_risk_score=adjusted_risk_score,
+        risk_drivers=risk_drivers,
+        water_source=water_source,
+        water_allocation_pct_vs_historic=water_allocation_pct_vs_historic,
+        weather_status=weather_status,
+        weather_summary=weather_summary,
     )

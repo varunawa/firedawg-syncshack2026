@@ -18,6 +18,13 @@ export interface BenchmarkResult {
   stdev_ml_per_ha: number | null;
   user_water_intensity_ml_per_ha: number;
   z_score: number | null;
+  water_source: string | null;
+  water_allocation_pct_vs_historic: number | null;
+  weather_status: string | null;
+  weather_summary: {
+    seven_day_rainfall_mm?: number | null;
+    climatic_water_deficit_mm?: number | null;
+  } | null;
 }
 
 interface ScenarioProps {
@@ -110,6 +117,35 @@ export default function Scenarios({
           95
         )
       : 50;
+
+  const allocationValue =
+    benchmark.water_allocation_pct_vs_historic != null &&
+    Number.isFinite(benchmark.water_allocation_pct_vs_historic)
+      ? benchmark.water_allocation_pct_vs_historic
+      : null;
+
+  const allocationText =
+    allocationValue !== null
+      ? `${Math.abs(allocationValue).toFixed(1)}% ${
+          allocationValue < 0 ? "below" : "above"
+        } historic`
+      : "Historic allocation unavailable";
+
+  const weatherText =
+    benchmark.weather_status
+      ? benchmark.weather_status.charAt(0).toUpperCase() + benchmark.weather_status.slice(1)
+      : "Weather unavailable";
+
+  const rainfallMm =
+    benchmark.weather_summary?.seven_day_rainfall_mm != null &&
+    Number.isFinite(benchmark.weather_summary.seven_day_rainfall_mm)
+      ? benchmark.weather_summary.seven_day_rainfall_mm
+      : null;
+  const deficitMm =
+    benchmark.weather_summary?.climatic_water_deficit_mm != null &&
+    Number.isFinite(benchmark.weather_summary.climatic_water_deficit_mm)
+      ? benchmark.weather_summary.climatic_water_deficit_mm
+      : null;
 
   return (
     <main
@@ -251,6 +287,32 @@ export default function Scenarios({
 
                     {regionalBenchmark !== null && (
                       <small> ML/ha</small>
+                    )}
+                  </strong>
+                </div>
+              </div>
+
+              <div className="snapshot-context-grid">
+                <div className="mini-metric">
+                  <span>Water source</span>
+                  <strong>{benchmark.water_source || "N/A"}</strong>
+                </div>
+
+                <div className="snapshot-divider" />
+
+                <div className="mini-metric">
+                  <span>Allocation</span>
+                  <strong>{allocationText}</strong>
+                </div>
+
+                <div className="snapshot-divider" />
+
+                <div className="mini-metric">
+                  <span>Weather</span>
+                  <strong>
+                    {weatherText}
+                    {rainfallMm !== null && (
+                      <small> · {rainfallMm.toFixed(1)} mm rain</small>
                     )}
                   </strong>
                 </div>

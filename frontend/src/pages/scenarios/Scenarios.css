@@ -362,6 +362,59 @@
   background: rgba(85, 91, 120, 0.12);
 }
 
+.snapshot-context-grid {
+  width: fit-content;
+
+  margin: 1.5rem auto 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 1.7rem;
+
+  padding: 1rem 1.7rem;
+
+  border-radius: 24px;
+
+  background: rgba(255, 255, 255, 0.35);
+
+  border: 1px solid rgba(255, 255, 255, 0.65);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.mini-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mini-metric span {
+  color: #8990aa;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.mini-metric strong {
+  color: #505670;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.mini-metric small {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #8990aa;
+}
+
+.mini-metric small {
+  color: #8990aa;
+  font-size: 0.75rem;
+}
+
 
 /* =========================
    WATER POSITION
