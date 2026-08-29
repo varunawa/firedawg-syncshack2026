@@ -1,14 +1,45 @@
 import { useState } from "react";
 import "./Home.css";
 
+interface LocationEntry {
+  postcode: string | number;
+  suburb: string;
+  state: string;
+  region_id: string;
+  VALLEY_NAME: string;
+}
+
+interface BusinessData {
+  location: LocationEntry;
+  cropCategory: string;
+  waterUsed: number;
+  landArea: number;
+}
+
 export default function Home() {
   const [step, setStep] = useState(1);
 
   const [location, setLocation] = useState("");
+  const [matchedLocation, setMatchedLocation] =
+    useState<LocationEntry | null>(null);
+
   const [cropCategory, setCropCategory] = useState("");
   const [waterUsed, setWaterUsed] = useState("");
   const [landArea, setLandArea] = useState("");
-  const [waterSource, setWaterSource] = useState("");
+
+  const [locationError, setLocationError] = useState("");
+  const [isAnalysing, setIsAnalysing] = useState(false);
+
+  const cropOptions = [
+    "Grains & Oilseeds",
+    "Pasture & Livestock Feed",
+    "Vegetables",
+    "Grapes & Vineyards",
+    "Fruit & Nuts",
+    "Cotton",
+    "Rice",
+    "Other",
+  ];
 
   const nextStep = () => {
     setStep((current) => Math.min(current + 1, 4));
@@ -18,20 +49,109 @@ export default function Home() {
     setStep((current) => Math.max(current - 1, 1));
   };
 
-  const handleAnalyse = () => {
-    const businessData = {
-      location,
-      cropCategory,
-      waterUsed,
-      landArea,
-    };
+  const submitLocation = async () => {
+    try {
+      setLocationError("");
 
-    console.log(businessData);
+      const response = await fetch("/data/postcode_map.json");
 
-    // Later:
-    // send businessData to backend
-    // then show/scroll to results
+      if (!response.ok) {
+        console.error(
+          "Failed to load postcode_map.json:",
+          response.status,
+          response.statusText
+        );
+
+        setLocationError(
+          "Location data could not be loaded. Please try again."
+        );
+
+        return;
+      }
+
+      const postcodeMap: LocationEntry[] = await response.json();
+
+      const userInput = location.trim().toLowerCase();
+
+      const match = postcodeMap.find((entry) => {
+        const postcode = String(entry.postcode)
+          .trim()
+          .toLowerCase();
+
+        const suburb = String(entry.suburb)
+          .trim()
+          .toLowerCase();
+
+        return postcode === userInput || suburb === userInput;
+      });
+
+      if (!match) {
+        console.log("No location found for:", location);
+
+        setLocationError(
+          "We couldn't find that suburb or postcode. Try another NSW suburb or postcode."
+        );
+
+        return;
+      }
+
+      setMatchedLocation(match);
+
+      console.log("===== LOCATION MATCH =====");
+      console.log("User entered:", location);
+      console.log("Full dictionary entry:", match);
+      console.log("Postcode:", match.postcode);
+      console.log("Suburb:", match.suburb);
+      console.log("State:", match.state);
+      console.log("Region ID:", match.region_id);
+      console.log("Valley:", match.VALLEY_NAME);
+      console.log("==========================");
+
+      setStep(2);
+    } catch (error) {
+      console.error("Location lookup failed:", error);
+
+      setLocationError(
+        "Location data could not be loaded. Please try again."
+      );
+    }
   };
+
+    const handleAnalyse = async () => {
+        console.log("ANALYSE BUTTON CLICKED");
+
+        if (!matchedLocation) {
+            console.error("No matched location available.");
+            return;
+        }
+
+        const businessData = {
+            location: matchedLocation,
+            cropCategory,
+            waterUsed: Number(waterUsed),
+            landArea: Number(landArea),
+        };
+
+        console.log("SENDING:", businessData);
+
+        try {
+            const response = await fetch("/api/analyse", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(businessData),
+            });
+
+            console.log("RESPONSE STATUS:", response.status);
+
+            const data = await response.json();
+
+            console.log("BACKEND RESPONSE:", data);
+        } catch (error) {
+            console.error("FETCH FAILED:", error);
+        }
+    };
 
   return (
     <section id="home" className="home">
@@ -40,80 +160,100 @@ export default function Home() {
         {/* Progress */}
         <div className="question-progress">
           <span>0{step}</span>
+
           <div className="progress-line">
             <div
               className="progress-fill"
-              style={{ width: `${(step / 4) * 100}%` }}
+              style={{
+                width: `${(step / 4) * 100}%`,
+              }}
             />
           </div>
+
           <span>04</span>
         </div>
 
-        {/* STEP 1 */}
+        {/* STEP 1 — LOCATION */}
         {step === 1 && (
           <div className="question-page">
-            <p className="question-label">YOUR BUSINESS</p>
-
-            <h2>Where are you located?</h2>
-
-            <p className="question-description">
-              We'll use your location to understand the water conditions
-              affecting your region.
+            <p className="question-label">
+              YOUR BUSINESS
             </p>
 
-            <select
+            <h2>
+              Where are you located?
+            </h2>
+
+            <p className="question-description">
+              We'll use your location to understand
+              the water conditions affecting your region.
+            </p>
+
+            <input
+              className="location-input"
+              type="text"
+              placeholder="e.g. Griffith or 2680"
               value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            >
-              <option value="">Select your location</option>
-              <option value="griffith">Griffith</option>
-              <option value="moree-plains">Moree Plains</option>
-              <option value="orange">Orange</option>
-              <option value="dubbo">Dubbo</option>
-              <option value="wagga-wagga">Wagga Wagga</option>
-            </select>
+              onChange={(e) => {
+                setLocation(e.target.value);
+                setLocationError("");
+                setMatchedLocation(null);
+              }}
+              onKeyDown={(e) => {
+                if (
+                  e.key === "Enter" &&
+                  location.trim()
+                ) {
+                  submitLocation();
+                }
+              }}
+            />
+
+            {locationError && (
+              <p className="location-error">
+                {locationError}
+              </p>
+            )}
 
             <button
               className="continue-button"
-              onClick={nextStep}
-              disabled={!location}
+              onClick={submitLocation}
+              disabled={!location.trim()}
             >
               Continue →
             </button>
           </div>
         )}
 
-        {/* STEP 2 */}
+        {/* STEP 2 — CROP */}
         {step === 2 && (
           <div className="question-page">
-            <p className="question-label">YOUR PRODUCTION</p>
+            <p className="question-label">
+              YOUR PRODUCTION
+            </p>
 
-            <h2>What best describes your crops?</h2>
+            <h2>
+              What best describes your crops?
+            </h2>
 
             <p className="question-description">
-              This helps us compare your water use with a more relevant
-              agricultural benchmark.
+              This helps us compare your water use
+              with a more relevant agricultural benchmark.
             </p>
 
             <div className="option-grid">
-              {[
-                "Grains & Oilseeds",
-                "Pasture & Livestock Feed",
-                "Vegetables",
-                "Grapes & Vineyards",
-                "Fruit & Nuts",
-                "Cotton",
-                "Rice",
-                "Other",
-              ].map((crop) => (
+              {cropOptions.map((crop) => (
                 <button
                   key={crop}
+                  type="button"
                   className={
                     cropCategory === crop
                       ? "option-card selected"
                       : "option-card"
                   }
-                  onClick={() => setCropCategory(crop)}
+                  onClick={() => {
+                    setCropCategory(crop);
+                  }}
                 >
                   {crop}
                 </button>
@@ -130,47 +270,63 @@ export default function Home() {
           </div>
         )}
 
-        {/* STEP 3 */}
+        {/* STEP 3 — WATER */}
         {step === 3 && (
           <div className="question-page">
-            <p className="question-label">WATER USE</p>
+            <p className="question-label">
+              WATER USE
+            </p>
 
-            <h2>How much water did you use last year?</h2>
+            <h2>
+              How much water did you use last year?
+            </h2>
 
             <p className="question-description">
-              Enter your total annual water use in megalitres.
+              Enter your total annual water use
+              in megalitres.
             </p>
 
             <div className="large-input">
               <input
                 type="number"
                 min="0"
-                placeholder="1,200"
+                placeholder="1200"
                 value={waterUsed}
-                onChange={(e) => setWaterUsed(e.target.value)}
+                onChange={(e) => {
+                  setWaterUsed(e.target.value);
+                }}
               />
+
               <span>ML</span>
             </div>
 
             <button
               className="continue-button"
               onClick={nextStep}
-              disabled={!waterUsed}
+              disabled={
+                !waterUsed ||
+                Number(waterUsed) <= 0
+              }
             >
               Continue →
             </button>
           </div>
         )}
 
-        {/* STEP 4 */}
+        {/* STEP 4 — LAND */}
         {step === 4 && (
           <div className="question-page">
-            <p className="question-label">LAND</p>
+            <p className="question-label">
+              LAND
+            </p>
 
-            <h2>How much irrigated land do you operate?</h2>
+            <h2>
+              How much irrigated land do you operate?
+            </h2>
 
             <p className="question-description">
-              We'll use this to calculate your water application rate.
+              We'll use this to calculate your
+              water application rate.
             </p>
 
             <div className="large-input">
@@ -179,25 +335,29 @@ export default function Home() {
                 min="0"
                 placeholder="250"
                 value={landArea}
-                onChange={(e) => setLandArea(e.target.value)}
+                onChange={(e) => {
+                  setLandArea(e.target.value);
+                }}
               />
+
               <span>hectares</span>
             </div>
 
             <button
-              className="continue-button"
-              onClick={nextStep}
-              disabled={!landArea}
-            >
-              Continue →
+                className="continue-button analyse"
+                onClick={handleAnalyse}
+                >
+                Analyse My Water Performance →
             </button>
           </div>
         )}
 
-
-        {/* Back */}
+        {/* BACK */}
         {step > 1 && (
-          <button className="back-button" onClick={previousStep}>
+          <button
+            className="back-button"
+            onClick={previousStep}
+          >
             ← Back
           </button>
         )}
