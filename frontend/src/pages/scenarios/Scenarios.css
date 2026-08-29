@@ -142,8 +142,33 @@
   color: #4e5470;
 }
 
+.scenario-summary {
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #d9dbe8;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.8);
+}
 
-/* RESULTS */
+.scenario-summary-label {
+  margin: 0 0 0.5rem;
+  color: #8997c1;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.scenario-summary p:last-child {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.scenario-summary-loading {
+  color: #8997c1;
+  font-style: italic;
+}
 
 .scenario-grid {
   display: grid;
