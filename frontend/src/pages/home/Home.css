@@ -1,0 +1,25 @@
+.home {
+  min-height: 100vh;
+  padding: 4rem;
+}
+
+.home-header {
+  text-align: center;
+}
+
+.home-header h2 {
+  font-size: 3rem;
+  margin: 0.5rem 0;
+}
+
+.map-placeholder {
+  height: 600px;
+  margin-top: 3rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid #ccc;
+  border-radius: 20px;
+}
