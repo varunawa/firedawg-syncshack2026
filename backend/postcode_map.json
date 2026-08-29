@@ -1,6 +1,0 @@
-# mapping postcodes/suburbs into the LLS (agriculture region)
-# each LLS should also map to its coresponding valley
-# user: input their postcode/suburb and the system will return the LLS and valley
-# this allows us to read from the crop LLS data, generate a risk assessment based on how many standard deviations their water use (mL/ha) is from the average for that LLS + crop,
-# and provide a risk low/medium/high for the user to consider
-# we later want to also scale this by a multiplier based on the valleys water allocation (AWD)
