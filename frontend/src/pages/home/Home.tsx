@@ -156,14 +156,18 @@ export default function Home() {
 
             console.log("RESPONSE STATUS:", response.status);
 
-            const data = await response.json();
+            const text = await response.text();
 
-            console.log("BACKEND RESPONSE:", data);
+            console.log("RAW BACKEND RESPONSE:", text);
 
             if (!response.ok) {
-            console.error("Analysis failed:", data);
+            console.error("Analysis failed:", response.status, text);
             return;
             }
+
+            const data = text ? JSON.parse(text) : null;
+
+            console.log("BACKEND RESPONSE:", data);
 
             setBenchmark(data.benchmark);
 
