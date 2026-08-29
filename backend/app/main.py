@@ -40,11 +40,11 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 
 from app.config import settings
 from app.db import Base, engine
 from app.routers import tasks
+from app.routers.analyse import router as analyse_router
 from app.routers.weather import router as weather_router
 from app.routers.waternsw import router as waternsw_router
 
@@ -68,18 +68,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-<<<<<<< HEAD
-=======
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.cors_origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
->>>>>>> f9ccc74 (Add dynamic WaterNSW API integration)
-
 app.include_router(tasks.router)
+
+# NB: the Vite dev proxy rewrites "/api/*" -> "/*", so the frontend's
+# POST /api/analyse reaches the backend as /analyse (no prefix here).
+app.include_router(analyse_router, tags=["analyse"])
 
 app.include_router(
     weather_router,
@@ -97,45 +90,3 @@ app.include_router(
 @app.get("/health", tags=["meta"])
 def health():
     return {"status": "ok"}
-
-
-class LocationData(BaseModel):
-    postcode: str | int
-    suburb: str
-    state: str
-    region_id: str
-    VALLEY_NAME: str
-
-
-class BusinessData(BaseModel):
-    location: LocationData
-    cropCategory: str
-    waterUsed: float
-    landArea: float
-
-
-@app.post("/analyse")
-def analyse_business(data: BusinessData):
-    print("\n===== DATA RECEIVED IN MAIN.PY =====")
-
-    print("Full data:")
-    print(data.model_dump())
-
-    print("\nLocation:")
-    print("Suburb:", data.location.suburb)
-    print("Postcode:", data.location.postcode)
-    print("State:", data.location.state)
-    print("Region ID:", data.location.region_id)
-    print("Valley:", data.location.VALLEY_NAME)
-
-    print("\nBusiness:")
-    print("Crop category:", data.cropCategory)
-    print("Water used:", data.waterUsed)
-    print("Land area:", data.landArea)
-
-    print("===================================\n")
-
-    return {
-        "success": True,
-        "message": "main.py received the data"
-    }
