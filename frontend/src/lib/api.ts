@@ -21,4 +21,17 @@ export const api = {
   createTask: (title) =>
     request("/tasks", { method: "POST", body: JSON.stringify({ title }) }),
   deleteTask: (id) => request(`/tasks/${id}`, { method: "DELETE" }),
+
+  // Benchmark comparison. `businessData` = { location, cropCategory, waterUsed, landArea }.
+  analyse: (businessData) =>
+    request("/analyse", { method: "POST", body: JSON.stringify(businessData) }),
+
+  // Plain-English summary of the same inputs. Call after `analyse` so the
+  // numbers show immediately and this fills in a moment later.
+  // Resolves to { success, explanation } where explanation may be null.
+  explainAnalysis: (businessData) =>
+    request("/analyse/explain", {
+      method: "POST",
+      body: JSON.stringify(businessData),
+    }),
 };
