@@ -8,6 +8,24 @@
 
   color: #555b78;
 
+  /* Shared rating→colour mapping, reused by the snapshot chip,
+     water position marker/pill and peer comparison marker so all
+     three screens read as one system. */
+  --rating-low-bg: rgba(184, 224, 191, 0.5);
+  --rating-low-solid: #8fc49f;
+  --rating-low-line: #6ea67e;
+  --rating-low-text: #3f6b4c;
+
+  --rating-moderate-bg: rgba(255, 224, 153, 0.55);
+  --rating-moderate-solid: #f0c884;
+  --rating-moderate-line: #d9a94c;
+  --rating-moderate-text: #8a6323;
+
+  --rating-high-bg: rgba(240, 176, 176, 0.5);
+  --rating-high-solid: #e3a3a3;
+  --rating-high-line: #cf8484;
+  --rating-high-text: #8a3b3b;
+
   background:
     radial-gradient(
       circle at 10% 10%,
@@ -284,12 +302,17 @@
 
   border-radius: 999px;
 
+  /* Default / unknown rating falls back to the original soft cream tone */
   background: rgba(255, 240, 168, 0.57);
 
   border: 1px solid rgba(255, 255, 255, 0.7);
 
   box-shadow:
     0 12px 30px rgba(97, 92, 65, 0.08);
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .snapshot-rating span {
@@ -304,6 +327,48 @@
   font-size: 0.95rem;
 
   text-transform: capitalize;
+}
+
+/* Low water use — soft sage/mint green */
+.snapshot-rating.rating-low {
+  background: var(--rating-low-bg);
+
+  border-color: rgba(255, 255, 255, 0.75);
+
+  box-shadow:
+    0 12px 30px rgba(74, 124, 89, 0.1);
+}
+
+.snapshot-rating.rating-low strong {
+  color: var(--rating-low-text);
+}
+
+/* Moderate water use — soft warm amber */
+.snapshot-rating.rating-moderate {
+  background: var(--rating-moderate-bg);
+
+  border-color: rgba(255, 255, 255, 0.75);
+
+  box-shadow:
+    0 12px 30px rgba(148, 108, 41, 0.1);
+}
+
+.snapshot-rating.rating-moderate strong {
+  color: var(--rating-moderate-text);
+}
+
+/* High water use — soft dusty red/blush */
+.snapshot-rating.rating-high {
+  background: var(--rating-high-bg);
+
+  border-color: rgba(255, 255, 255, 0.75);
+
+  box-shadow:
+    0 12px 30px rgba(155, 65, 65, 0.12);
+}
+
+.snapshot-rating.rating-high strong {
+  color: var(--rating-high-text);
 }
 
 .snapshot-numbers {
@@ -360,6 +425,59 @@
   height: 40px;
 
   background: rgba(85, 91, 120, 0.12);
+}
+
+.snapshot-context-grid {
+  width: fit-content;
+
+  margin: 1.5rem auto 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 1.7rem;
+
+  padding: 1rem 1.7rem;
+
+  border-radius: 24px;
+
+  background: rgba(255, 255, 255, 0.35);
+
+  border: 1px solid rgba(255, 255, 255, 0.65);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.mini-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mini-metric span {
+  color: #8990aa;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.mini-metric strong {
+  color: #505670;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.mini-metric small {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #8990aa;
+}
+
+.mini-metric small {
+  color: #8990aa;
+  font-size: 0.75rem;
 }
 
 
@@ -419,6 +537,26 @@
 
   font-size: 0.8rem;
   font-weight: 600;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+/* Rating-coloured pill — mirrors the snapshot chip family */
+.difference-pill.rating-low {
+  background: var(--rating-low-bg);
+  color: var(--rating-low-text);
+}
+
+.difference-pill.rating-moderate {
+  background: var(--rating-moderate-bg);
+  color: var(--rating-moderate-text);
+}
+
+.difference-pill.rating-high {
+  background: var(--rating-high-bg);
+  color: var(--rating-high-text);
 }
 
 .water-scale {
@@ -468,6 +606,38 @@
 
   box-shadow:
     0 8px 22px rgba(73, 79, 110, 0.18);
+
+  transition: background 0.25s ease;
+}
+
+/* Rating-coloured user marker — the benchmark marker stays neutral
+   dark blue-grey so it remains easy to tell apart from the user. */
+.user-marker.rating-low .user-dot {
+  background: var(--rating-low-solid);
+}
+
+.user-marker.rating-moderate .user-dot {
+  background: var(--rating-moderate-solid);
+}
+
+.user-marker.rating-high .user-dot {
+  background: var(--rating-high-solid);
+}
+
+.user-marker .scale-label span {
+  transition: color 0.25s ease;
+}
+
+.user-marker.rating-low .scale-label span {
+  color: var(--rating-low-text);
+}
+
+.user-marker.rating-moderate .scale-label span {
+  color: var(--rating-moderate-text);
+}
+
+.user-marker.rating-high .scale-label span {
+  color: var(--rating-high-text);
 }
 
 .benchmark-line {
@@ -570,6 +740,8 @@
       #8997c1,
       rgba(137, 151, 193, 0.1)
     );
+
+  transition: background 0.25s ease;
 }
 
 .peer-dot {
@@ -586,6 +758,8 @@
 
   box-shadow:
     0 7px 20px rgba(73, 79, 110, 0.16);
+
+  transition: background 0.25s ease;
 }
 
 .peer-marker span {
@@ -595,6 +769,61 @@
 
   font-size: 0.7rem;
   font-weight: 600;
+
+  transition: color 0.25s ease;
+}
+
+/* Rating-coloured user marker on the distribution curve — the curve
+   itself stays neutral blue-grey. */
+.peer-marker.rating-low .peer-line {
+  background:
+    linear-gradient(
+      to top,
+      var(--rating-low-line),
+      rgba(110, 166, 126, 0.1)
+    );
+}
+
+.peer-marker.rating-low .peer-dot {
+  background: var(--rating-low-solid);
+}
+
+.peer-marker.rating-low span {
+  color: var(--rating-low-text);
+}
+
+.peer-marker.rating-moderate .peer-line {
+  background:
+    linear-gradient(
+      to top,
+      var(--rating-moderate-line),
+      rgba(217, 169, 76, 0.1)
+    );
+}
+
+.peer-marker.rating-moderate .peer-dot {
+  background: var(--rating-moderate-solid);
+}
+
+.peer-marker.rating-moderate span {
+  color: var(--rating-moderate-text);
+}
+
+.peer-marker.rating-high .peer-line {
+  background:
+    linear-gradient(
+      to top,
+      var(--rating-high-line),
+      rgba(207, 132, 132, 0.1)
+    );
+}
+
+.peer-marker.rating-high .peer-dot {
+  background: var(--rating-high-solid);
+}
+
+.peer-marker.rating-high span {
+  color: var(--rating-high-text);
 }
 
 .percentile-result {

@@ -44,6 +44,10 @@ farms - don't call it "farms".
 - percentile is where this farm ranks (lower = uses less water).
 - A negative delta_pct or z_score means the farm uses LESS water than the \
 benchmark - that is good news; say so plainly.
+- If allocation_factor is greater than 1.0, say the region is facing tighter \
+water allocation than usual and this is increasing operational risk.
+- If rainfall_factor is greater than 1.0, say rainfall is running short or \
+conditions are dry and that is adding pressure to water use.
 - Never advise the farmer to relocate, stop irrigating, or switch crops.
 - If benchmark figures are null, say a like-for-like benchmark wasn't available \
 and keep it brief.
