@@ -59,6 +59,8 @@ export default function Home() {
 
     return () => observer.disconnect();
   }, []);
+  const [summary, setSummary] = useState<string | null>(null);
+  const [summaryLoading, setSummaryLoading] = useState(false);
 
   const cropOptions = [
     "Grains & Oilseeds",
@@ -188,16 +190,34 @@ export default function Home() {
 
             console.log("RESPONSE STATUS:", response.status);
 
-            const data = await response.json();
+            const text = await response.text();
 
-            console.log("BACKEND RESPONSE:", data);
+            console.log("RAW BACKEND RESPONSE:", text);
 
             if (!response.ok) {
-            console.error("Analysis failed:", data);
+            console.error("Analysis failed:", response.status, text);
             return;
             }
 
+            const data = text ? JSON.parse(text) : null;
+
+            console.log("BACKEND RESPONSE:", data);
+
             setBenchmark(data.benchmark);
+
+            // Plain-English summary — non-blocking. The stats already render;
+            // this fills in when it's ready, and it's fine if it never does.
+            setSummary(null);
+            setSummaryLoading(true);
+            fetch("/api/analyse/explain", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(businessData),
+            })
+                .then((res) => (res.ok ? res.json() : null))
+                .then((payload) => setSummary(payload?.explanation ?? null))
+                .catch(() => setSummary(null))
+                .finally(() => setSummaryLoading(false));
         } catch (error) {
             console.error("FETCH FAILED:", error);
         } finally {
@@ -206,7 +226,13 @@ export default function Home() {
     };
 
     if (benchmark) {
-        return <Scenarios benchmark={benchmark} />;
+        return (
+            <Scenarios
+                benchmark={benchmark}
+                summary={summary}
+                summaryLoading={summaryLoading}
+            />
+        );
     }
 
   return (

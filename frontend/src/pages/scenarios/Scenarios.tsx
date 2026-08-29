@@ -20,9 +20,15 @@ export interface BenchmarkResult {
 
 interface ScenarioProps {
   benchmark: BenchmarkResult;
+  summary?: string | null;
+  summaryLoading?: boolean;
 }
 
-export default function Scenarios({ benchmark }: ScenarioProps) {
+export default function Scenarios({
+  benchmark,
+  summary,
+  summaryLoading,
+}: ScenarioProps) {
   return (
     <section className="scenarios">
       <div className="scenario-container">
@@ -34,6 +40,19 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
           <p>Overall Rating</p>
           <h2>{benchmark.rating}</h2>
         </div>
+
+        {(summaryLoading || summary) && (
+          <div className="scenario-summary">
+            <p className="scenario-summary-label">What this means</p>
+            {summaryLoading ? (
+              <p className="scenario-summary-loading">
+                Generating summary…
+              </p>
+            ) : (
+              <p>{summary}</p>
+            )}
+          </div>
+        )}
 
         <div className="scenario-grid">
           <div className="result-card">
