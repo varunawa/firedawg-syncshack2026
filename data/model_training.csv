@@ -1,0 +1,236 @@
+year,state,region_type,region,crop_category,total_area_grown_ha,irrigated_area_ha,water_applied_ml,water_intensity_ml_per_ha,agricultural_businesses_estimate,source,notes,region_key,water_source,awd_ml_per_share,carry_over_ml_per_share,cumulative_allocation_ml_per_share,total_balance_ml_per_share,storage_value
+2020-21,nsw,nrm,central tablelands,grains & oilseeds,140237.63,347.35,613.74,1.767,4.14,ABS Water Use on Australian Farms 2020-21,Grains category is cereals excluding rice; oilseeds not separately included,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2020-21,nsw,nrm,central tablelands,pasture & livestock feed,1324425.03,5719.01,17182.76,3.004,103.68,ABS Water Use on Australian Farms 2020-21,Combined grazing/fed-off + hay/silage ABS categories,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2020-21,nsw,nrm,central tablelands,vegetables,1673.3,1338.92,3588.38,2.68,19.73,ABS Water Use on Australian Farms 2020-21,,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2020-21,nsw,nrm,central tablelands,grapes & vineyards,2489.05,2283.0,2084.23,0.913,51.34,ABS Water Use on Australian Farms 2020-21,,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2020-21,nsw,nrm,central tablelands,fruit & nuts,989.97,599.94,2680.91,4.469,38.3,ABS Water Use on Australian Farms 2020-21,,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2020-21,nsw,nrm,central tablelands,cotton,276.74,276.74,2090.76,7.555,2.73,ABS Water Use on Australian Farms 2020-21,,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2020-21,nsw,nrm,central tablelands,rice,12.97,12.97,64.85,5.0,0.11,ABS Water Use on Australian Farms 2020-21,,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2020-21,nsw,nrm,central west,grains & oilseeds,1655533.79,8555.27,18260.5,2.134,33.84,ABS Water Use on Australian Farms 2020-21,Grains category is cereals excluding rice; oilseeds not separately included,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2020-21,nsw,nrm,central west,pasture & livestock feed,4133351.89,9449.06,26526.67,2.807,122.56,ABS Water Use on Australian Farms 2020-21,Combined grazing/fed-off + hay/silage ABS categories,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2020-21,nsw,nrm,central west,vegetables,903.62,668.51,1892.72,2.831,8.68,ABS Water Use on Australian Farms 2020-21,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2020-21,nsw,nrm,central west,grapes & vineyards,337.17,39.71,23.91,0.602,2.37,ABS Water Use on Australian Farms 2020-21,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2020-21,nsw,nrm,central west,fruit & nuts,356.35,243.05,1082.07,4.452,10.11,ABS Water Use on Australian Farms 2020-21,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2020-21,nsw,nrm,central west,cotton,22867.58,22252.43,144362.37,6.487,69.8,ABS Water Use on Australian Farms 2020-21,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2020-21,nsw,nrm,central west,rice,262.82,262.82,2223.6,8.461,2.41,ABS Water Use on Australian Farms 2020-21,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2020-21,nsw,nrm,greater sydney,grains & oilseeds,464.27,31.73,52.83,1.665,1.59,ABS Water Use on Australian Farms 2020-21,Grains category is cereals excluding rice; oilseeds not separately included,greater_sydney,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,greater sydney,pasture & livestock feed,34851.9,2655.65,5991.63,2.256,72.61,ABS Water Use on Australian Farms 2020-21,Combined grazing/fed-off + hay/silage ABS categories,greater_sydney,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,greater sydney,vegetables,3464.75,2579.21,15943.5,6.182,382.78,ABS Water Use on Australian Farms 2020-21,,greater_sydney,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,greater sydney,grapes & vineyards,86.08,74.04,102.44,1.384,3.04,ABS Water Use on Australian Farms 2020-21,,greater_sydney,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,greater sydney,fruit & nuts,948.56,794.97,2017.25,2.538,86.96,ABS Water Use on Australian Farms 2020-21,,greater_sydney,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,hunter,grains & oilseeds,11376.72,72.41,53.86,0.744,3.96,ABS Water Use on Australian Farms 2020-21,Grains category is cereals excluding rice; oilseeds not separately included,hunter,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,hunter,pasture & livestock feed,876961.14,17358.77,36434.7,2.099,311.17,ABS Water Use on Australian Farms 2020-21,Combined grazing/fed-off + hay/silage ABS categories,hunter,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,hunter,vegetables,170.73,116.74,190.28,1.63,16.28,ABS Water Use on Australian Farms 2020-21,,hunter,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,hunter,grapes & vineyards,1932.96,1241.34,2017.43,1.625,80.35,ABS Water Use on Australian Farms 2020-21,,hunter,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,hunter,fruit & nuts,879.49,697.58,677.45,0.971,12.95,ABS Water Use on Australian Farms 2020-21,,hunter,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,murray,grains & oilseeds,639877.99,76600.13,144724.95,1.889,279.94,ABS Water Use on Australian Farms 2020-21,Grains category is cereals excluding rice; oilseeds not separately included,murray,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,murray,pasture & livestock feed,2199108.5,80238.13,169425.5,2.112,657.08,ABS Water Use on Australian Farms 2020-21,Combined grazing/fed-off + hay/silage ABS categories,murray,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,murray,vegetables,1627.76,1580.37,7522.61,4.76,14.11,ABS Water Use on Australian Farms 2020-21,,murray,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,murray,grapes & vineyards,907.07,788.38,3827.87,4.855,14.22,ABS Water Use on Australian Farms 2020-21,,murray,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,murray,fruit & nuts,2708.2,2557.08,10538.36,4.121,26.66,ABS Water Use on Australian Farms 2020-21,,murray,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,murray,cotton,2774.77,2654.77,22258.96,8.385,10.58,ABS Water Use on Australian Farms 2020-21,,murray,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,murray,rice,14681.95,14681.95,189520.06,12.908,156.53,ABS Water Use on Australian Farms 2020-21,,murray,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,north coast,grains & oilseeds,4057.07,137.83,87.28,0.633,3.44,ABS Water Use on Australian Farms 2020-21,Grains category is cereals excluding rice; oilseeds not separately included,north_coast,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,north coast,pasture & livestock feed,597915.33,4665.39,9804.07,2.101,123.66,ABS Water Use on Australian Farms 2020-21,Combined grazing/fed-off + hay/silage ABS categories,north_coast,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,north coast,vegetables,1073.03,286.44,650.15,2.27,86.29,ABS Water Use on Australian Farms 2020-21,,north_coast,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,north coast,grapes & vineyards,38.8,13.83,41.5,3.001,1.16,ABS Water Use on Australian Farms 2020-21,,north_coast,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,north coast,fruit & nuts,16449.13,4868.54,8617.89,1.77,240.74,ABS Water Use on Australian Farms 2020-21,,north_coast,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,north coast,rice,503.32,503.32,3325.01,6.606,17.6,ABS Water Use on Australian Farms 2020-21,,north_coast,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,north west nsw,grains & oilseeds,1729502.05,25201.31,31956.54,1.268,92.16,ABS Water Use on Australian Farms 2020-21,Grains category is cereals excluding rice; oilseeds not separately included,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2020-21,nsw,nrm,north west nsw,pasture & livestock feed,3239977.88,8146.63,15456.19,1.897,159.11,ABS Water Use on Australian Farms 2020-21,Combined grazing/fed-off + hay/silage ABS categories,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2020-21,nsw,nrm,north west nsw,vegetables,4.32,1.35,2.7,2.0,1.35,ABS Water Use on Australian Farms 2020-21,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2020-21,nsw,nrm,north west nsw,grapes & vineyards,42.62,1.52,0.64,0.421,1.37,ABS Water Use on Australian Farms 2020-21,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2020-21,nsw,nrm,north west nsw,fruit & nuts,2066.59,1684.04,8372.53,4.972,7.15,ABS Water Use on Australian Farms 2020-21,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2020-21,nsw,nrm,north west nsw,cotton,102966.83,60983.52,300722.17,4.931,192.51,ABS Water Use on Australian Farms 2020-21,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2020-21,nsw,nrm,north west nsw,rice,16.87,16.87,168.69,9.999,1.2,ABS Water Use on Australian Farms 2020-21,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2020-21,nsw,nrm,northern tablelands,grains & oilseeds,63166.14,590.38,767.19,1.299,10.24,ABS Water Use on Australian Farms 2020-21,Grains category is cereals excluding rice; oilseeds not separately included,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2020-21,nsw,nrm,northern tablelands,pasture & livestock feed,1863140.84,2505.35,5157.37,2.059,55.24,ABS Water Use on Australian Farms 2020-21,Combined grazing/fed-off + hay/silage ABS categories,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2020-21,nsw,nrm,northern tablelands,vegetables,532.36,321.89,827.82,2.572,7.11,ABS Water Use on Australian Farms 2020-21,,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2020-21,nsw,nrm,northern tablelands,grapes & vineyards,117.43,14.91,35.93,2.41,2.37,ABS Water Use on Australian Farms 2020-21,,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2020-21,nsw,nrm,northern tablelands,fruit & nuts,723.43,702.38,2091.69,2.978,10.31,ABS Water Use on Australian Farms 2020-21,,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2020-21,nsw,nrm,northern tablelands,cotton,1499.3,1484.12,5046.68,3.4,6.65,ABS Water Use on Australian Farms 2020-21,,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2020-21,nsw,nrm,riverina,grains & oilseeds,1316673.2,69935.96,197157.38,2.819,216.68,ABS Water Use on Australian Farms 2020-21,Grains category is cereals excluding rice; oilseeds not separately included,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2020-21,nsw,nrm,riverina,pasture & livestock feed,3517891.97,18196.67,59853.63,3.289,238.27,ABS Water Use on Australian Farms 2020-21,Combined grazing/fed-off + hay/silage ABS categories,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2020-21,nsw,nrm,riverina,vegetables,2780.42,1424.24,6807.71,4.78,17.85,ABS Water Use on Australian Farms 2020-21,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2020-21,nsw,nrm,riverina,grapes & vineyards,15169.25,14319.13,60066.78,4.195,213.4,ABS Water Use on Australian Farms 2020-21,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2020-21,nsw,nrm,riverina,fruit & nuts,18870.37,17907.89,107448.37,6.0,293.81,ABS Water Use on Australian Farms 2020-21,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2020-21,nsw,nrm,riverina,cotton,22702.16,22683.33,225435.73,9.938,82.97,ABS Water Use on Australian Farms 2020-21,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2020-21,nsw,nrm,riverina,rice,22066.67,22066.67,261610.23,11.855,159.7,ABS Water Use on Australian Farms 2020-21,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2020-21,nsw,nrm,south east nsw,grains & oilseeds,53092.45,214.87,140.95,0.656,2.49,ABS Water Use on Australian Farms 2020-21,Grains category is cereals excluding rice; oilseeds not separately included,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,south east nsw,pasture & livestock feed,1594789.11,7663.39,16196.51,2.113,114.34,ABS Water Use on Australian Farms 2020-21,Combined grazing/fed-off + hay/silage ABS categories,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,south east nsw,vegetables,403.38,302.49,1008.45,3.334,27.03,ABS Water Use on Australian Farms 2020-21,,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,south east nsw,grapes & vineyards,362.37,274.71,597.39,2.175,40.44,ABS Water Use on Australian Farms 2020-21,,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,nrm,south east nsw,fruit & nuts,576.09,251.05,488.84,1.947,29.47,ABS Water Use on Australian Farms 2020-21,,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2020-21,nsw,state,new south wales,grains & oilseeds,5994137.44,208412.77,462355.63,2.218,727.57,ABS Water Use on Australian Farms 2020-21,Grains category is cereals excluding rice; oilseeds not separately included,new_south_wales,,,,,,0
+2020-21,nsw,state,new south wales,pasture & livestock feed,41009783.49,167281.92,393402.81,2.352,2058.99,ABS Water Use on Australian Farms 2020-21,Combined grazing/fed-off + hay/silage ABS categories,new_south_wales,,,,,,0
+2020-21,nsw,state,new south wales,vegetables,14142.45,9718.16,43707.25,4.497,613.99,ABS Water Use on Australian Farms 2020-21,,new_south_wales,,,,,,0
+2020-21,nsw,state,new south wales,grapes & vineyards,33501.67,30764.31,141722.35,4.607,590.17,ABS Water Use on Australian Farms 2020-21,,new_south_wales,,,,,,0
+2020-21,nsw,state,new south wales,fruit & nuts,59682.37,44977.68,237539.3,5.281,899.89,ABS Water Use on Australian Farms 2020-21,,new_south_wales,,,,,,0
+2020-21,nsw,state,new south wales,cotton,166866.0,123869.68,826300.64,6.671,403.35,ABS Water Use on Australian Farms 2020-21,,new_south_wales,,,,,,0
+2020-21,nsw,state,new south wales,rice,43907.0,43907.0,531434.4,12.104,383.44,ABS Water Use on Australian Farms 2020-21,,new_south_wales,,,,,,0
+2019-20,nsw,nrm,central tablelands,grains & oilseeds,86086.92,509.4,1031.54,2.025,17.86,ABS Water Use on Australian Farms 2019-20,Grains category is cereals excluding rice; oilseeds not separately included,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2019-20,nsw,nrm,central tablelands,vegetables,1497.8,1211.08,5932.76,4.899,13.32,ABS Water Use on Australian Farms 2019-20,,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2019-20,nsw,nrm,central tablelands,grapes & vineyards,2594.28,1872.43,3135.65,1.675,101.95,ABS Water Use on Australian Farms 2019-20,,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2019-20,nsw,nrm,central tablelands,fruit & nuts,1396.96,1084.53,4196.47,3.869,69.36,ABS Water Use on Australian Farms 2019-20,,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2019-20,nsw,nrm,central west,grains & oilseeds,934339.14,4584.87,18618.64,4.061,27.66,ABS Water Use on Australian Farms 2019-20,Grains category is cereals excluding rice; oilseeds not separately included,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2019-20,nsw,nrm,central west,vegetables,531.21,465.9,1388.38,2.98,4.21,ABS Water Use on Australian Farms 2019-20,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2019-20,nsw,nrm,central west,grapes & vineyards,184.56,35.38,71.51,2.021,7.94,ABS Water Use on Australian Farms 2019-20,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2019-20,nsw,nrm,central west,fruit & nuts,372.14,318.7,1742.17,5.466,15.56,ABS Water Use on Australian Farms 2019-20,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2019-20,nsw,nrm,central west,cotton,3903.59,1742.64,14113.0,8.099,20.84,ABS Water Use on Australian Farms 2019-20,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2019-20,nsw,nrm,greater sydney,grains & oilseeds,316.91,230.0,1264.0,5.496,2.0,ABS Water Use on Australian Farms 2019-20,Grains category is cereals excluding rice; oilseeds not separately included,greater_sydney,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,greater sydney,vegetables,3063.88,2501.3,6898.73,2.758,433.59,ABS Water Use on Australian Farms 2019-20,,greater_sydney,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,greater sydney,fruit & nuts,889.58,764.63,2353.76,3.078,82.97,ABS Water Use on Australian Farms 2019-20,,greater_sydney,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,hunter,vegetables,74.01,36.04,62.33,1.729,14.48,ABS Water Use on Australian Farms 2019-20,,hunter,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,hunter,grapes & vineyards,2702.72,2049.44,3050.34,1.488,111.43,ABS Water Use on Australian Farms 2019-20,,hunter,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,hunter,fruit & nuts,446.68,250.13,776.43,3.104,31.59,ABS Water Use on Australian Farms 2019-20,,hunter,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,murray,grains & oilseeds,473048.0,24390.12,45590.98,1.869,130.4,ABS Water Use on Australian Farms 2019-20,Grains category is cereals excluding rice; oilseeds not separately included,murray,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,murray,vegetables,691.21,653.75,3281.19,5.019,16.3,ABS Water Use on Australian Farms 2019-20,,murray,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,murray,grapes & vineyards,957.83,848.54,4546.08,5.358,18.18,ABS Water Use on Australian Farms 2019-20,,murray,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,murray,fruit & nuts,3886.97,3776.1,22775.66,6.032,26.99,ABS Water Use on Australian Farms 2019-20,,murray,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,murray,cotton,879.05,879.05,7032.37,8.0,6.52,ABS Water Use on Australian Farms 2019-20,,murray,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,murray,rice,493.65,493.65,6928.22,14.035,7.6,ABS Water Use on Australian Farms 2019-20,,murray,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,north coast,vegetables,571.31,462.79,1020.68,2.205,124.51,ABS Water Use on Australian Farms 2019-20,,north_coast,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,north coast,fruit & nuts,15681.25,6705.74,12338.12,1.84,389.97,ABS Water Use on Australian Farms 2019-20,,north_coast,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,north coast,rice,54.89,54.89,21.96,0.4,5.49,ABS Water Use on Australian Farms 2019-20,,north_coast,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,north west nsw,grains & oilseeds,538285.63,16647.95,36236.3,2.177,113.17,ABS Water Use on Australian Farms 2019-20,Grains category is cereals excluding rice; oilseeds not separately included,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2019-20,nsw,nrm,north west nsw,vegetables,13.24,13.24,1.32,0.1,1.32,ABS Water Use on Australian Farms 2019-20,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2019-20,nsw,nrm,north west nsw,grapes & vineyards,1.32,1.32,0.66,0.5,1.32,ABS Water Use on Australian Farms 2019-20,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2019-20,nsw,nrm,north west nsw,fruit & nuts,2472.07,1928.21,11564.91,5.998,15.52,ABS Water Use on Australian Farms 2019-20,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2019-20,nsw,nrm,north west nsw,cotton,36236.23,23783.84,103569.96,4.355,118.37,ABS Water Use on Australian Farms 2019-20,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2019-20,nsw,nrm,northern tablelands,grains & oilseeds,40454.47,365.78,948.17,2.592,3.43,ABS Water Use on Australian Farms 2019-20,Grains category is cereals excluding rice; oilseeds not separately included,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2019-20,nsw,nrm,northern tablelands,vegetables,333.09,309.11,2059.72,6.663,4.52,ABS Water Use on Australian Farms 2019-20,,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2019-20,nsw,nrm,northern tablelands,grapes & vineyards,42.64,12.18,12.18,1.0,1.22,ABS Water Use on Australian Farms 2019-20,,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2019-20,nsw,nrm,northern tablelands,fruit & nuts,341.68,268.77,353.33,1.315,7.31,ABS Water Use on Australian Farms 2019-20,,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2019-20,nsw,nrm,northern tablelands,cotton,311.51,103.84,519.18,5.0,1.3,ABS Water Use on Australian Farms 2019-20,,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2019-20,nsw,nrm,riverina,grains & oilseeds,1109328.51,37448.99,103295.31,2.758,140.27,ABS Water Use on Australian Farms 2019-20,Grains category is cereals excluding rice; oilseeds not separately included,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2019-20,nsw,nrm,riverina,vegetables,2642.13,1642.47,7566.72,4.607,28.33,ABS Water Use on Australian Farms 2019-20,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2019-20,nsw,nrm,riverina,grapes & vineyards,17045.17,14445.27,61887.21,4.284,217.57,ABS Water Use on Australian Farms 2019-20,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2019-20,nsw,nrm,riverina,fruit & nuts,17128.32,16135.64,98474.53,6.103,367.17,ABS Water Use on Australian Farms 2019-20,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2019-20,nsw,nrm,riverina,cotton,12454.05,12454.05,128516.05,10.319,40.12,ABS Water Use on Australian Farms 2019-20,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2019-20,nsw,nrm,riverina,rice,3579.65,3579.65,46244.4,12.919,69.52,ABS Water Use on Australian Farms 2019-20,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2019-20,nsw,nrm,south east nsw,vegetables,179.41,167.62,1127.03,6.724,40.27,ABS Water Use on Australian Farms 2019-20,,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,south east nsw,grapes & vineyards,852.34,771.93,3015.71,3.907,53.07,ABS Water Use on Australian Farms 2019-20,,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,south east nsw,fruit & nuts,289.14,128.36,346.67,2.701,27.61,ABS Water Use on Australian Farms 2019-20,,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,south east nsw,rice,118.91,118.91,1426.92,12.0,2.97,ABS Water Use on Australian Farms 2019-20,,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2019-20,nsw,nrm,western,grains & oilseeds,186686.13,2094.6,9322.7,4.451,2.0,ABS Water Use on Australian Farms 2019-20,Grains category is cereals excluding rice; oilseeds not separately included,western,lower_darling,0.3,0.02,0.3,0.32,0
+2019-20,nsw,nrm,western,vegetables,602.89,602.89,5506.31,9.133,24.97,ABS Water Use on Australian Farms 2019-20,,western,lower_darling,0.3,0.02,0.3,0.32,0
+2019-20,nsw,nrm,western,grapes & vineyards,7781.82,7711.79,59166.45,7.672,145.48,ABS Water Use on Australian Farms 2019-20,,western,lower_darling,0.3,0.02,0.3,0.32,0
+2019-20,nsw,nrm,western,fruit & nuts,7132.69,7019.69,58141.62,8.283,71.78,ABS Water Use on Australian Farms 2019-20,,western,lower_darling,0.3,0.02,0.3,0.32,0
+2019-20,nsw,nrm,western,cotton,845.0,845.0,9970.7,11.8,2.0,ABS Water Use on Australian Farms 2019-20,,western,lower_darling,0.3,0.02,0.3,0.32,0
+2019-20,nsw,state,new south wales,grains & oilseeds,3402802.4,86271.72,216307.65,2.507,436.8,ABS Water Use on Australian Farms 2019-20,Grains category is cereals excluding rice; oilseeds not separately included,new_south_wales,,,,,,0
+2019-20,nsw,state,new south wales,vegetables,10200.19,8066.19,34845.18,4.32,705.82,ABS Water Use on Australian Farms 2019-20,,new_south_wales,,,,,,0
+2019-20,nsw,state,new south wales,grapes & vineyards,32191.95,27748.28,134885.79,4.861,658.16,ABS Water Use on Australian Farms 2019-20,,new_south_wales,,,,,,0
+2019-20,nsw,state,new south wales,fruit & nuts,50037.47,38380.5,213063.67,5.551,1105.84,ABS Water Use on Australian Farms 2019-20,,new_south_wales,,,,,,0
+2019-20,nsw,state,new south wales,cotton,54629.43,39808.41,263721.27,6.625,189.15,ABS Water Use on Australian Farms 2019-20,,new_south_wales,,,,,,0
+2019-20,nsw,state,new south wales,rice,4247.1,4247.1,54621.49,12.861,85.58,ABS Water Use on Australian Farms 2019-20,,new_south_wales,,,,,,0
+2018-19,nsw,nrm,central tablelands,pasture & livestock feed,1276076.33,2399.86,8205.58,3.419,65.04,ABS Water Use on Australian Farms 2018-19,Combined grazing/fed-off + hay/silage ABS categories,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2018-19,nsw,nrm,central tablelands,grapes & vineyards,2599.34,2429.17,3101.93,1.277,69.99,ABS Water Use on Australian Farms 2018-19,,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2018-19,nsw,nrm,central tablelands,fruit & nuts,1009.64,539.38,2704.15,5.013,50.98,ABS Water Use on Australian Farms 2018-19,,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2018-19,nsw,nrm,central west,pasture & livestock feed,4545365.06,15267.36,32618.9,2.137,118.31,ABS Water Use on Australian Farms 2018-19,Combined grazing/fed-off + hay/silage ABS categories,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2018-19,nsw,nrm,central west,grapes & vineyards,144.79,14.79,115.25,7.792,2.47,ABS Water Use on Australian Farms 2018-19,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2018-19,nsw,nrm,central west,fruit & nuts,340.14,39.44,76.42,1.938,3.7,ABS Water Use on Australian Farms 2018-19,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2018-19,nsw,nrm,central west,cotton,,25921.95,239292.95,9.231,85.61,ABS Water Use on Australian Farms 2018-19,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2018-19,nsw,nrm,greater sydney,pasture & livestock feed,24187.23,974.5,2443.87,2.508,31.91,ABS Water Use on Australian Farms 2018-19,Combined grazing/fed-off + hay/silage ABS categories,greater_sydney,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,greater sydney,fruit & nuts,745.43,604.68,1042.05,1.723,90.05,ABS Water Use on Australian Farms 2018-19,,greater_sydney,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,hunter,pasture & livestock feed,809045.11,27815.08,66172.62,2.379,257.32,ABS Water Use on Australian Farms 2018-19,Combined grazing/fed-off + hay/silage ABS categories,hunter,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,hunter,grapes & vineyards,1969.1,1960.25,4235.91,2.161,115.55,ABS Water Use on Australian Farms 2018-19,,hunter,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,hunter,fruit & nuts,289.88,240.52,534.58,2.223,10.69,ABS Water Use on Australian Farms 2018-19,,hunter,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,murray,pasture & livestock feed,2099912.04,61908.65,141877.59,2.292,472.28,ABS Water Use on Australian Farms 2018-19,Combined grazing/fed-off + hay/silage ABS categories,murray,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,murray,grapes & vineyards,1072.29,933.6,4429.43,4.744,45.47,ABS Water Use on Australian Farms 2018-19,,murray,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,murray,fruit & nuts,3631.21,3579.96,18943.78,5.292,23.15,ABS Water Use on Australian Farms 2018-19,,murray,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,murray,cotton,,1663.93,14188.46,8.527,7.8,ABS Water Use on Australian Farms 2018-19,,murray,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,murray,rice,2790.64,2790.64,22853.91,8.189,18.03,ABS Water Use on Australian Farms 2018-19,,murray,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,north coast,pasture & livestock feed,522805.75,5189.19,5980.66,1.153,96.26,ABS Water Use on Australian Farms 2018-19,Combined grazing/fed-off + hay/silage ABS categories,north_coast,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,north coast,fruit & nuts,15866.6,6245.87,8118.68,1.3,386.8,ABS Water Use on Australian Farms 2018-19,,north_coast,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,north west nsw,pasture & livestock feed,3644912.91,2338.39,8280.45,3.541,61.4,ABS Water Use on Australian Farms 2018-19,Combined grazing/fed-off + hay/silage ABS categories,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2018-19,nsw,nrm,north west nsw,grapes & vineyards,1.41,1.41,5.64,4.0,1.41,ABS Water Use on Australian Farms 2018-19,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2018-19,nsw,nrm,north west nsw,fruit & nuts,2857.35,2178.79,13184.57,6.051,14.96,ABS Water Use on Australian Farms 2018-19,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2018-19,nsw,nrm,north west nsw,cotton,,54958.01,359796.71,6.547,199.09,ABS Water Use on Australian Farms 2018-19,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2018-19,nsw,nrm,northern tablelands,pasture & livestock feed,1629467.61,297.87,1326.95,4.455,5.74,ABS Water Use on Australian Farms 2018-19,Combined grazing/fed-off + hay/silage ABS categories,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2018-19,nsw,nrm,northern tablelands,fruit & nuts,629.29,590.65,808.32,1.369,9.07,ABS Water Use on Australian Farms 2018-19,,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2018-19,nsw,nrm,northern tablelands,cotton,,1062.38,9095.09,8.561,8.67,ABS Water Use on Australian Farms 2018-19,,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2018-19,nsw,nrm,riverina,pasture & livestock feed,2584270.08,8201.93,29740.74,3.626,163.09,ABS Water Use on Australian Farms 2018-19,Combined grazing/fed-off + hay/silage ABS categories,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2018-19,nsw,nrm,riverina,grapes & vineyards,19596.08,15560.17,77805.73,5.0,284.25,ABS Water Use on Australian Farms 2018-19,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2018-19,nsw,nrm,riverina,fruit & nuts,16336.39,13930.98,97550.42,7.002,318.24,ABS Water Use on Australian Farms 2018-19,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2018-19,nsw,nrm,riverina,cotton,,43638.63,355933.76,8.156,140.99,ABS Water Use on Australian Farms 2018-19,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2018-19,nsw,nrm,riverina,rice,3817.22,3817.22,44748.71,11.723,34.22,ABS Water Use on Australian Farms 2018-19,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2018-19,nsw,nrm,south east nsw,pasture & livestock feed,1434332.32,3234.25,4261.72,1.318,81.04,ABS Water Use on Australian Farms 2018-19,Combined grazing/fed-off + hay/silage ABS categories,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,south east nsw,grapes & vineyards,646.05,597.18,2163.77,3.623,67.19,ABS Water Use on Australian Farms 2018-19,,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,south east nsw,fruit & nuts,375.34,8.53,9.07,1.063,11.71,ABS Water Use on Australian Farms 2018-19,,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,south east nsw,rice,140.31,140.31,1683.69,12.0,2.34,ABS Water Use on Australian Farms 2018-19,,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2018-19,nsw,nrm,western,pasture & livestock feed,21796185.56,4583.44,14434.79,3.149,52.89,ABS Water Use on Australian Farms 2018-19,Combined grazing/fed-off + hay/silage ABS categories,western,lower_darling,0.3,0.02,0.3,0.32,0
+2018-19,nsw,nrm,western,grapes & vineyards,7359.35,7242.98,59283.37,8.185,143.59,ABS Water Use on Australian Farms 2018-19,,western,lower_darling,0.3,0.02,0.3,0.32,0
+2018-19,nsw,nrm,western,fruit & nuts,7595.15,7534.28,68576.22,9.102,94.51,ABS Water Use on Australian Farms 2018-19,,western,lower_darling,0.3,0.02,0.3,0.32,0
+2018-19,nsw,nrm,western,cotton,,5011.35,56182.87,11.211,8.44,ABS Water Use on Australian Farms 2018-19,,western,lower_darling,0.3,0.02,0.3,0.32,0
+2018-19,nsw,state,new south wales,pasture & livestock feed,40366559.98,132210.52,315343.87,2.385,1405.3,ABS Water Use on Australian Farms 2018-19,Combined grazing/fed-off + hay/silage ABS categories,new_south_wales,,,,,,0
+2018-19,nsw,state,new south wales,grapes & vineyards,33393.81,28739.54,151141.02,5.259,729.91,ABS Water Use on Australian Farms 2018-19,,new_south_wales,,,,,,0
+2018-19,nsw,state,new south wales,fruit & nuts,49676.41,35493.08,211548.27,5.96,1013.86,ABS Water Use on Australian Farms 2018-19,,new_south_wales,,,,,,0
+2018-19,nsw,state,new south wales,cotton,,132256.25,1034489.82,7.822,450.59,ABS Water Use on Australian Farms 2018-19,,new_south_wales,,,,,,0
+2018-19,nsw,state,new south wales,rice,6748.17,6748.17,69286.31,10.267,54.59,ABS Water Use on Australian Farms 2018-19,,new_south_wales,,,,,,0
+2017-18,nsw,nrm,central tablelands,grains & oilseeds,98512.2,960.93,4126.52,4.294,13.44,ABS Water Use on Australian Farms 2017-18,Grains category is other cereals for grain or seed; oilseeds not separately included,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2017-18,nsw,nrm,central tablelands,pasture & livestock feed,1394833.7,2943.0,8691.69,2.953,33.71,ABS Water Use on Australian Farms 2017-18,Combined grazing/fed-off + hay + silage ABS categories,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2017-18,nsw,nrm,central tablelands,vegetables,1474.07,957.21,3514.23,3.671,25.04,ABS Water Use on Australian Farms 2017-18,,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2017-18,nsw,nrm,central tablelands,grapes & vineyards,2200.8,2138.4,3832.36,1.792,32.46,ABS Water Use on Australian Farms 2017-18,,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2017-18,nsw,nrm,central tablelands,fruit & nuts,1132.59,758.09,988.57,1.304,54.85,ABS Water Use on Australian Farms 2017-18,,central_tablelands,lachlan,0.04,0.59,0.04,0.63,0
+2017-18,nsw,nrm,central west,grains & oilseeds,1220039.17,8098.98,7872.34,0.972,65.42,ABS Water Use on Australian Farms 2017-18,Grains category is other cereals for grain or seed; oilseeds not separately included,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2017-18,nsw,nrm,central west,pasture & livestock feed,4794535.59,10915.04,24698.37,2.263,65.96,ABS Water Use on Australian Farms 2017-18,Combined grazing/fed-off + hay + silage ABS categories,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2017-18,nsw,nrm,central west,vegetables,1578.31,1575.24,13059.65,8.291,28.71,ABS Water Use on Australian Farms 2017-18,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2017-18,nsw,nrm,central west,grapes & vineyards,151.51,21.51,17.83,0.829,3.07,ABS Water Use on Australian Farms 2017-18,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2017-18,nsw,nrm,central west,fruit & nuts,250.81,33.81,267.38,7.908,3.07,ABS Water Use on Australian Farms 2017-18,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2017-18,nsw,nrm,central west,cotton,32123.83,31351.39,282625.98,9.015,80.6,ABS Water Use on Australian Farms 2017-18,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2017-18,nsw,nrm,central west,rice,185.49,185.49,2473.23,13.333,3.09,ABS Water Use on Australian Farms 2017-18,,central_west,macquarie,0.0,0.4,0.0,0.4,0
+2017-18,nsw,nrm,greater sydney,pasture & livestock feed,19784.56,986.16,1359.08,1.378,34.68,ABS Water Use on Australian Farms 2017-18,Combined grazing/fed-off + hay + silage ABS categories,greater_sydney,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,greater sydney,vegetables,4023.99,3409.37,8111.64,2.379,406.95,ABS Water Use on Australian Farms 2017-18,,greater_sydney,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,greater sydney,fruit & nuts,915.4,662.29,2214.68,3.344,73.68,ABS Water Use on Australian Farms 2017-18,,greater_sydney,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,hunter,grains & oilseeds,9829.74,253.52,1155.96,4.56,4.77,ABS Water Use on Australian Farms 2017-18,Grains category is other cereals for grain or seed; oilseeds not separately included,hunter,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,hunter,pasture & livestock feed,831676.77,11823.64,30769.31,2.602,207.1,ABS Water Use on Australian Farms 2017-18,Combined grazing/fed-off + hay + silage ABS categories,hunter,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,hunter,vegetables,97.38,71.28,241.24,3.384,11.1,ABS Water Use on Australian Farms 2017-18,,hunter,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,hunter,grapes & vineyards,1453.09,1344.34,1578.41,1.174,59.49,ABS Water Use on Australian Farms 2017-18,,hunter,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,hunter,fruit & nuts,103.07,32.36,209.4,6.471,7.59,ABS Water Use on Australian Farms 2017-18,,hunter,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,murray,grains & oilseeds,574845.77,84904.4,153332.93,1.806,301.94,ABS Water Use on Australian Farms 2017-18,Grains category is other cereals for grain or seed; oilseeds not separately included,murray,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,murray,pasture & livestock feed,2252237.92,79088.3,188335.08,2.381,558.54,ABS Water Use on Australian Farms 2017-18,Combined grazing/fed-off + hay + silage ABS categories,murray,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,murray,vegetables,1962.09,1653.51,10195.72,6.166,26.26,ABS Water Use on Australian Farms 2017-18,,murray,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,murray,grapes & vineyards,959.72,908.97,3840.2,4.225,23.97,ABS Water Use on Australian Farms 2017-18,,murray,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,murray,fruit & nuts,6369.97,6105.21,24827.67,4.067,34.69,ABS Water Use on Australian Farms 2017-18,,murray,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,murray,cotton,2640.47,2640.47,20118.22,7.619,7.25,ABS Water Use on Australian Farms 2017-18,,murray,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,murray,rice,29750.87,29750.87,368689.04,12.393,248.16,ABS Water Use on Australian Farms 2017-18,,murray,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,north coast,pasture & livestock feed,649147.79,5514.16,8216.84,1.49,99.47,ABS Water Use on Australian Farms 2017-18,Combined grazing/fed-off + hay + silage ABS categories,north_coast,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,north coast,vegetables,569.97,485.4,1707.62,3.518,115.13,ABS Water Use on Australian Farms 2017-18,,north_coast,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,north coast,fruit & nuts,14102.54,5343.71,6745.06,1.262,295.41,ABS Water Use on Australian Farms 2017-18,,north_coast,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,north coast,rice,161.3,161.3,268.83,1.667,26.88,ABS Water Use on Australian Farms 2017-18,,north_coast,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,north west nsw,grains & oilseeds,840066.14,26313.09,29545.61,1.123,100.78,ABS Water Use on Australian Farms 2017-18,Grains category is other cereals for grain or seed; oilseeds not separately included,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2017-18,nsw,nrm,north west nsw,pasture & livestock feed,2878781.59,1872.92,3832.77,2.046,64.21,ABS Water Use on Australian Farms 2017-18,Combined grazing/fed-off + hay + silage ABS categories,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2017-18,nsw,nrm,north west nsw,vegetables,53.02,32.01,37.02,1.157,2.1,ABS Water Use on Australian Farms 2017-18,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2017-18,nsw,nrm,north west nsw,fruit & nuts,822.7,370.05,1462.89,3.953,4.52,ABS Water Use on Australian Farms 2017-18,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2017-18,nsw,nrm,north west nsw,cotton,196414.71,128692.04,913925.79,7.102,230.85,ABS Water Use on Australian Farms 2017-18,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2017-18,nsw,nrm,north west nsw,rice,80.0,80.0,68.0,0.85,1.0,ABS Water Use on Australian Farms 2017-18,,north_west_nsw,lower_namoi,0.0,1.46,0.0,1.46,0
+2017-18,nsw,nrm,northern tablelands,grains & oilseeds,65970.53,1446.73,3364.31,2.325,5.21,ABS Water Use on Australian Farms 2017-18,Grains category is other cereals for grain or seed; oilseeds not separately included,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2017-18,nsw,nrm,northern tablelands,pasture & livestock feed,1591949.06,1923.48,1861.27,0.968,12.12,ABS Water Use on Australian Farms 2017-18,Combined grazing/fed-off + hay + silage ABS categories,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2017-18,nsw,nrm,northern tablelands,vegetables,1048.38,609.01,1291.39,2.12,11.34,ABS Water Use on Australian Farms 2017-18,,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2017-18,nsw,nrm,northern tablelands,fruit & nuts,266.76,254.64,409.76,1.609,6.5,ABS Water Use on Australian Farms 2017-18,,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2017-18,nsw,nrm,northern tablelands,cotton,5350.72,3497.87,25156.91,7.192,17.28,ABS Water Use on Australian Farms 2017-18,,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2017-18,nsw,nrm,northern tablelands,rice,521.38,521.38,6932.87,13.297,10.29,ABS Water Use on Australian Farms 2017-18,,northern_tablelands,gwydir,0.0,0.86,0.0,0.86,0
+2017-18,nsw,nrm,riverina,grains & oilseeds,1082287.85,69984.46,178670.67,2.553,278.99,ABS Water Use on Australian Farms 2017-18,Grains category is other cereals for grain or seed; oilseeds not separately included,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2017-18,nsw,nrm,riverina,pasture & livestock feed,3033311.73,22399.18,57407.21,2.563,238.91,ABS Water Use on Australian Farms 2017-18,Combined grazing/fed-off + hay + silage ABS categories,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2017-18,nsw,nrm,riverina,vegetables,3947.73,2341.83,11267.18,4.811,36.96,ABS Water Use on Australian Farms 2017-18,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2017-18,nsw,nrm,riverina,grapes & vineyards,20646.98,19558.61,81285.33,4.156,295.28,ABS Water Use on Australian Farms 2017-18,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2017-18,nsw,nrm,riverina,fruit & nuts,14431.74,13123.38,87182.21,6.643,305.78,ABS Water Use on Australian Farms 2017-18,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2017-18,nsw,nrm,riverina,cotton,55602.93,55602.93,536106.75,9.642,180.74,ABS Water Use on Australian Farms 2017-18,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2017-18,nsw,nrm,riverina,rice,29355.96,29355.96,346899.49,11.817,264.63,ABS Water Use on Australian Farms 2017-18,,riverina,murrumbidgee,0.05,0.15,0.27,0.42,0
+2017-18,nsw,nrm,south east nsw,pasture & livestock feed,1414258.41,2855.58,6404.15,2.243,51.6,ABS Water Use on Australian Farms 2017-18,Combined grazing/fed-off + hay + silage ABS categories,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,south east nsw,vegetables,363.46,308.74,1411.46,4.572,35.11,ABS Water Use on Australian Farms 2017-18,,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,south east nsw,grapes & vineyards,297.62,188.52,155.13,0.823,22.92,ABS Water Use on Australian Farms 2017-18,,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,south east nsw,fruit & nuts,190.38,36.94,21.96,0.594,14.14,ABS Water Use on Australian Farms 2017-18,,south_east_nsw,murray,0.03,0.24,0.15,0.39,0
+2017-18,nsw,nrm,western,grains & oilseeds,171609.78,3992.48,14625.51,3.663,17.21,ABS Water Use on Australian Farms 2017-18,Grains category is other cereals for grain or seed; oilseeds not separately included,western,lower_darling,0.3,0.02,0.3,0.32,0
+2017-18,nsw,nrm,western,pasture & livestock feed,22339361.45,1660.3,8236.68,4.961,53.35,ABS Water Use on Australian Farms 2017-18,Combined grazing/fed-off + hay + silage ABS categories,western,lower_darling,0.3,0.02,0.3,0.32,0
+2017-18,nsw,nrm,western,vegetables,913.37,800.13,5540.19,6.924,36.59,ABS Water Use on Australian Farms 2017-18,,western,lower_darling,0.3,0.02,0.3,0.32,0
+2017-18,nsw,nrm,western,grapes & vineyards,8666.36,8557.44,65844.9,7.694,145.99,ABS Water Use on Australian Farms 2017-18,,western,lower_darling,0.3,0.02,0.3,0.32,0
+2017-18,nsw,nrm,western,fruit & nuts,4882.47,4815.83,42415.83,8.808,86.78,ABS Water Use on Australian Farms 2017-18,,western,lower_darling,0.3,0.02,0.3,0.32,0
+2017-18,nsw,nrm,western,cotton,9826.13,9826.13,109731.51,11.167,16.14,ABS Water Use on Australian Farms 2017-18,,western,lower_darling,0.3,0.02,0.3,0.32,0
+2017-18,nsw,state,new south wales,grains & oilseeds,4081615.02,195954.6,392693.84,2.004,787.77,ABS Water Use on Australian Farms 2017-18,Grains category is other cereals for grain or seed; oilseeds not separately included,new_south_wales,,,,,,0
+2017-18,nsw,state,new south wales,pasture & livestock feed,41199878.55,141981.76,339812.46,2.393,1419.65,ABS Water Use on Australian Farms 2017-18,Combined grazing/fed-off + hay + silage ABS categories,new_south_wales,,,,,,0
+2017-18,nsw,state,new south wales,vegetables,16031.78,12243.72,56377.34,4.605,735.31,ABS Water Use on Australian Farms 2017-18,,new_south_wales,,,,,,0
+2017-18,nsw,state,new south wales,grapes & vineyards,34376.88,32717.8,156554.16,4.785,583.18,ABS Water Use on Australian Farms 2017-18,,new_south_wales,,,,,,0
+2017-18,nsw,state,new south wales,fruit & nuts,43468.43,31536.31,166745.41,5.287,887.01,ABS Water Use on Australian Farms 2017-18,,new_south_wales,,,,,,0
+2017-18,nsw,state,new south wales,cotton,301958.78,231610.83,1887665.17,8.15,532.86,ABS Water Use on Australian Farms 2017-18,,new_south_wales,,,,,,0
+2017-18,nsw,state,new south wales,rice,60055.0,60055.0,725331.47,12.078,554.05,ABS Water Use on Australian Farms 2017-18,,new_south_wales,,,,,,0
