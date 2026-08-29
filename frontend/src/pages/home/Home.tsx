@@ -1,5 +1,8 @@
 import { useState } from "react";
 import "./Home.css";
+import Scenarios, {
+  type BenchmarkResult,
+} from "../scenarios/Scenarios";
 
 interface LocationEntry {
   postcode: string | number;
@@ -29,6 +32,9 @@ export default function Home() {
 
   const [locationError, setLocationError] = useState("");
   const [isAnalysing, setIsAnalysing] = useState(false);
+
+  const [benchmark, setBenchmark] =
+  useState<BenchmarkResult | null>(null);
 
   const cropOptions = [
     "Grains & Oilseeds",
@@ -135,6 +141,8 @@ export default function Home() {
         console.log("SENDING:", businessData);
 
         try {
+            setIsAnalysing(true);
+
             const response = await fetch("/api/analyse", {
             method: "POST",
             headers: {
@@ -148,10 +156,23 @@ export default function Home() {
             const data = await response.json();
 
             console.log("BACKEND RESPONSE:", data);
+
+            if (!response.ok) {
+            console.error("Analysis failed:", data);
+            return;
+            }
+
+            setBenchmark(data.benchmark);
         } catch (error) {
             console.error("FETCH FAILED:", error);
+        } finally {
+            setIsAnalysing(false);
         }
     };
+
+    if (benchmark) {
+        return <Scenarios benchmark={benchmark} />;
+    }
 
   return (
     <section id="home" className="home">
