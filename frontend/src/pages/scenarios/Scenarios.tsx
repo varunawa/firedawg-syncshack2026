@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./Scenarios.css";
 
 export interface BenchmarkResult {
@@ -22,73 +23,651 @@ interface ScenarioProps {
   benchmark: BenchmarkResult;
 }
 
+type View = "snapshot" | "position" | "peers" | "scenario";
+
+const views: View[] = [
+  "snapshot",
+  "position",
+  "peers",
+  "scenario",
+];
+
 export default function Scenarios({ benchmark }: ScenarioProps) {
+  const [activeView, setActiveView] =
+    useState<View>("snapshot");
+
+  const [reduction, setReduction] = useState(10);
+
+  const currentUse =
+    benchmark.user_water_intensity_ml_per_ha;
+
+  const regionalBenchmark =
+    benchmark.benchmark_water_intensity_ml_per_ha;
+
+  const projectedUse =
+    currentUse * (1 - reduction / 100);
+
+  const currentIndex = views.indexOf(activeView);
+
+  const goNext = () => {
+    if (currentIndex < views.length - 1) {
+      setActiveView(views[currentIndex + 1]);
+    }
+  };
+
+  const goBack = () => {
+    if (currentIndex > 0) {
+      setActiveView(views[currentIndex - 1]);
+    }
+  };
+
+  /*
+    Creates room on the scale so the markers
+    don't sit directly on the edges.
+  */
+  const maxScale =
+    Math.max(
+      currentUse,
+      regionalBenchmark ?? 0,
+      1
+    ) * 1.35;
+
+  const userPosition = Math.min(
+    Math.max((currentUse / maxScale) * 100, 5),
+    95
+  );
+
+  const benchmarkPosition =
+    regionalBenchmark !== null
+      ? Math.min(
+          Math.max(
+            (regionalBenchmark / maxScale) * 100,
+            5
+          ),
+          95
+        )
+      : null;
+
+  const differenceText =
+    benchmark.delta_pct !== null
+      ? `${Math.abs(benchmark.delta_pct)}% ${
+          benchmark.delta_pct < 0
+            ? "below"
+            : benchmark.delta_pct > 0
+              ? "above"
+              : "at"
+        } benchmark`
+      : "Comparison unavailable";
+
+  const percentilePosition =
+    benchmark.percentile !== null
+      ? Math.min(
+          Math.max(benchmark.percentile, 5),
+          95
+        )
+      : 50;
+
   return (
-    <section className="scenarios">
-      <div className="scenario-container">
-        <p className="scenario-label">H2.OS WATER ANALYSIS</p>
+    <main className="scenarios">
+      <div className="scenario-shell">
 
-        <h1>Your water performance</h1>
-
-        <div className="rating-card">
-          <p>Overall Rating</p>
-          <h2>{benchmark.rating}</h2>
-        </div>
-
-        <div className="scenario-grid">
-          <div className="result-card">
-            <span>Your water use</span>
-            <strong>
-              {benchmark.user_water_intensity_ml_per_ha} ML/ha
-            </strong>
+        {/* TOP NAVIGATION */}
+        <header className="scenario-header">
+          <div className="scenario-brand">
+            <span className="brand-dot" />
+            H2.OS
           </div>
 
-          <div className="result-card">
-            <span>Regional benchmark</span>
-            <strong>
-              {benchmark.benchmark_water_intensity_ml_per_ha ?? "N/A"} ML/ha
-            </strong>
+          <div className="scenario-tabs">
+
+            <button
+              className={
+                activeView === "snapshot"
+                  ? "scenario-tab active"
+                  : "scenario-tab"
+              }
+              onClick={() =>
+                setActiveView("snapshot")
+              }
+            >
+              Snapshot
+            </button>
+
+            <button
+              className={
+                activeView === "position"
+                  ? "scenario-tab active"
+                  : "scenario-tab"
+              }
+              onClick={() =>
+                setActiveView("position")
+              }
+            >
+              Water Position
+            </button>
+
+            <button
+              className={
+                activeView === "peers"
+                  ? "scenario-tab active"
+                  : "scenario-tab"
+              }
+              onClick={() =>
+                setActiveView("peers")
+              }
+            >
+              Peer Comparison
+            </button>
+
+            <button
+              className={
+                activeView === "scenario"
+                  ? "scenario-tab active"
+                  : "scenario-tab"
+              }
+              onClick={() =>
+                setActiveView("scenario")
+              }
+            >
+              What If?
+            </button>
+
+          </div>
+        </header>
+
+
+        {/* ======================
+            SNAPSHOT
+        ====================== */}
+
+        {activeView === "snapshot" && (
+          <section className="scenario-view snapshot-view">
+
+            <div className="view-content narrow">
+
+              <p className="scenario-label">
+                YOUR WATER SNAPSHOT
+              </p>
+
+              <h1>
+                Here's what your water data tells
+                us about your farm.
+              </h1>
+
+              <p className="hero-summary">
+                We've analysed your water use
+                against agricultural and regional
+                benchmarks to give you a clearer
+                picture of your current position.
+              </p>
+
+              <div className="snapshot-rating">
+                <span>Overall rating</span>
+
+                <strong>
+                  {benchmark.rating}
+                </strong>
+              </div>
+
+              <div className="snapshot-numbers">
+
+                <div>
+                  <span>Your water use</span>
+                  <strong>
+                    {currentUse.toFixed(1)}
+                    <small> ML/ha</small>
+                  </strong>
+                </div>
+
+                <div className="snapshot-divider" />
+
+                <div>
+                  <span>Regional benchmark</span>
+                  <strong>
+                    {regionalBenchmark !== null
+                      ? regionalBenchmark.toFixed(1)
+                      : "N/A"}
+
+                    {regionalBenchmark !== null && (
+                      <small> ML/ha</small>
+                    )}
+                  </strong>
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+        )}
+
+
+        {/* ======================
+            WATER POSITION
+        ====================== */}
+
+        {activeView === "position" && (
+          <section className="scenario-view">
+
+            <div className="view-content">
+
+              <p className="scenario-label">
+                YOUR WATER POSITION
+              </p>
+
+              <h2>
+                See where your farm sits.
+              </h2>
+
+              <p className="section-description">
+                Compare your current water
+                application rate with the regional
+                benchmark for{" "}
+                {benchmark.crop_category}.
+              </p>
+
+
+              <div className="glass-card water-position-card">
+
+                <div className="position-heading">
+
+                  <div>
+                    <span className="metric-label">
+                      Your water use
+                    </span>
+
+                    <strong className="large-number">
+                      {currentUse.toFixed(1)}
+                      <small> ML/ha</small>
+                    </strong>
+                  </div>
+
+                  <div className="difference-pill">
+                    {differenceText}
+                  </div>
+
+                </div>
+
+
+                <div className="water-scale">
+
+                  <div className="scale-track" />
+
+                  <div
+                    className="scale-marker user-marker"
+                    style={{
+                      left: `${userPosition}%`,
+                    }}
+                  >
+                    <div className="user-dot" />
+
+                    <div className="scale-label">
+                      <span>You</span>
+
+                      <strong>
+                        {currentUse.toFixed(1)}
+                      </strong>
+                    </div>
+                  </div>
+
+
+                  {benchmarkPosition !== null && (
+                    <div
+                      className="scale-marker benchmark-marker"
+                      style={{
+                        left: `${benchmarkPosition}%`,
+                      }}
+                    >
+                      <div className="benchmark-line" />
+
+                      <div className="scale-label">
+                        <span>Benchmark</span>
+
+                        <strong>
+                          {regionalBenchmark?.toFixed(
+                            1
+                          )}
+                        </strong>
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+
+
+                <div className="scale-direction">
+                  <span>Lower water use</span>
+                  <span>Higher water use</span>
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+        )}
+
+
+        {/* ======================
+            PEER COMPARISON
+        ====================== */}
+
+        {activeView === "peers" && (
+          <section className="scenario-view">
+
+            <div className="view-content">
+
+              <p className="scenario-label">
+                PEER COMPARISON
+              </p>
+
+              <h2>
+                How do you compare?
+              </h2>
+
+              <p className="section-description">
+                See where your water application
+                rate sits compared with similar
+                observations in the dataset.
+              </p>
+
+
+              <div className="glass-card percentile-card">
+
+                <div className="distribution-wrapper">
+
+                  <svg
+                    className="distribution-curve"
+                    viewBox="0 0 800 300"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="
+                        M20 260
+                        C120 255, 145 230, 200 180
+                        C260 125, 300 55, 400 50
+                        C500 55, 540 125, 600 180
+                        C655 230, 680 255, 780 260
+                      "
+                    />
+                  </svg>
+
+
+                  {benchmark.percentile !== null && (
+                    <div
+                      className="peer-marker"
+                      style={{
+                        left: `${percentilePosition}%`,
+                      }}
+                    >
+                      <div className="peer-line" />
+
+                      <div className="peer-dot" />
+
+                      <span>You</span>
+                    </div>
+                  )}
+
+                </div>
+
+
+                <div className="percentile-result">
+
+                  <span>
+                    Your position
+                  </span>
+
+                  <strong>
+                    {benchmark.percentile !== null
+                      ? `${benchmark.percentile}th`
+                      : "N/A"}
+                  </strong>
+
+                  <p>
+                    percentile
+                  </p>
+
+                </div>
+
+
+                <div className="peer-context">
+
+                  <div>
+                    <span>Compared with</span>
+
+                    <strong>
+                      {benchmark.sample_size ??
+                        "N/A"}{" "}
+                      observations
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>Region</span>
+
+                    <strong>
+                      {benchmark.region_used ??
+                        "NSW"}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>Crop</span>
+
+                    <strong>
+                      {benchmark.crop_category}
+                    </strong>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+        )}
+
+
+        {/* ======================
+            WHAT IF?
+        ====================== */}
+
+        {activeView === "scenario" && (
+          <section className="scenario-view">
+
+            <div className="view-content">
+
+              <p className="scenario-label">
+                SCENARIO EXPLORER
+              </p>
+
+              <h2>
+                What if you used less water?
+              </h2>
+
+              <p className="section-description">
+                Explore how a change in water use
+                could affect your water application
+                rate.
+              </p>
+
+
+              <div className="glass-card what-if-card">
+
+                <div className="scenario-question">
+                  What if you reduced your water
+                  use by
+                </div>
+
+                <div className="reduction-number">
+                  {reduction}
+                  <span>%</span>
+                </div>
+
+
+                <div className="slider-container">
+
+                  <input
+                    type="range"
+                    min="0"
+                    max="30"
+                    step="1"
+                    value={reduction}
+                    onChange={(event) =>
+                      setReduction(
+                        Number(event.target.value)
+                      )
+                    }
+                    className="reduction-slider"
+                  />
+
+                  <div className="slider-labels">
+                    <span>0%</span>
+                    <span>10%</span>
+                    <span>20%</span>
+                    <span>30%</span>
+                  </div>
+
+                </div>
+
+
+                <div className="scenario-results">
+
+                  <div className="scenario-result">
+                    <span>Current</span>
+
+                    <strong>
+                      {currentUse.toFixed(2)}
+                    </strong>
+
+                    <small>ML/ha</small>
+                  </div>
+
+
+                  <div className="scenario-arrow">
+                    →
+                  </div>
+
+
+                  <div className="scenario-result projected">
+                    <span>Projected</span>
+
+                    <strong>
+                      {projectedUse.toFixed(2)}
+                    </strong>
+
+                    <small>ML/ha</small>
+                  </div>
+
+                </div>
+
+
+                {regionalBenchmark !== null && (
+                  <div className="scenario-benchmark-note">
+
+                    Regional benchmark
+
+                    <strong>
+                      {regionalBenchmark.toFixed(1)}{" "}
+                      ML/ha
+                    </strong>
+
+                  </div>
+                )}
+
+              </div>
+
+
+              <div className="methodology-row">
+
+                <div>
+                  <span>Benchmark year</span>
+                  <strong>
+                    {benchmark.benchmark_year ??
+                      "N/A"}
+                  </strong>
+                </div>
+
+                <div>
+                  <span>Region</span>
+                  <strong>
+                    {benchmark.region_used ??
+                      "NSW"}
+                  </strong>
+                </div>
+
+                <div>
+                  <span>Sample size</span>
+                  <strong>
+                    {benchmark.sample_size ??
+                      "N/A"}
+                  </strong>
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+        )}
+
+
+        {/* BOTTOM NAV */}
+        <footer className="scenario-navigation">
+
+          <button
+            className="nav-button secondary"
+            onClick={goBack}
+            disabled={currentIndex === 0}
+          >
+            ← Back
+          </button>
+
+
+          <div className="progress-dots">
+
+            {views.map((view) => (
+              <button
+                key={view}
+                aria-label={`Go to ${view}`}
+                className={
+                  activeView === view
+                    ? "progress-dot active"
+                    : "progress-dot"
+                }
+                onClick={() =>
+                  setActiveView(view)
+                }
+              />
+            ))}
+
           </div>
 
-          <div className="result-card">
-            <span>Difference</span>
-            <strong>
-              {benchmark.delta_pct !== null
-                ? `${benchmark.delta_pct > 0 ? "+" : ""}${benchmark.delta_pct}%`
-                : "N/A"}
-            </strong>
-          </div>
 
-          <div className="result-card">
-            <span>Percentile</span>
-            <strong>
-              {benchmark.percentile !== null
-                ? `${benchmark.percentile}%`
-                : "N/A"}
-            </strong>
-          </div>
-        </div>
+          {currentIndex <
+          views.length - 1 ? (
+            <button
+              className="nav-button primary"
+              onClick={goNext}
+            >
+              Next →
+            </button>
+          ) : (
+            <button
+              className="nav-button primary"
+              onClick={() =>
+                setActiveView("snapshot")
+              }
+            >
+              Back to summary
+            </button>
+          )}
 
-        <div className="scenario-context">
-          <p>
-            <strong>Crop:</strong> {benchmark.crop_category}
-          </p>
+        </footer>
 
-          <p>
-            <strong>Region:</strong> {benchmark.region_used ?? "NSW"}
-          </p>
-
-          <p>
-            <strong>Benchmark year:</strong>{" "}
-            {benchmark.benchmark_year ?? "N/A"}
-          </p>
-
-          <p>
-            <strong>Z-score:</strong>{" "}
-            {benchmark.z_score ?? "N/A"}
-          </p>
-        </div>
       </div>
-    </section>
+    </main>
   );
 }
