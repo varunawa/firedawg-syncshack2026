@@ -24,6 +24,7 @@ interface ScenarioProps {
   benchmark: BenchmarkResult;
   summary?: string | null;
   summaryLoading?: boolean;
+  onEditDetails?: () => void;
 }
 
 type View =
@@ -43,6 +44,7 @@ export default function Scenarios({
   benchmark,
   summary,
   summaryLoading,
+  onEditDetails,
 }: ScenarioProps) {
   const [activeView, setActiveView] =
     useState<View>("snapshot");
@@ -117,6 +119,13 @@ export default function Scenarios({
             : ""
         }`}
     >
+        <button
+            type="button"
+            onClick={onEditDetails}
+            className="edit-details-button"
+            >
+            ↻ Edit farm details
+        </button>
       <div className="scenario-shell">
 
         {/* TOP NAVIGATION */}
