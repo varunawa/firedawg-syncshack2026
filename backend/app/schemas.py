@@ -120,8 +120,26 @@ class StrategyRecommendation(BaseModel):
     implementation_disruption: str
     confidence: str
     source: str
- 
- 
+
+
+class ProjectionPoint(BaseModel):
+    month: int
+    projected_water_intensity_ml_per_ha: float
+    cumulative_water_saved_ml: float
+    cumulative_water_saved_ml_per_ha: float
+
+
+class ProjectionResult(BaseModel):
+    current_water_intensity_ml_per_ha: float
+    projected_water_intensity_ml_per_ha: float
+    annual_water_saved_ml: float
+    annual_water_saved_ml_per_ha: float
+    reduction_percent: float
+    annual_cost_aud: float
+    cost_per_ml_saved_aud: float | None
+    timeline: list[ProjectionPoint]
+
+
 class RecommendationResult(BaseModel):
     risk: RiskResult
     optimization_mode: str
@@ -135,4 +153,7 @@ class RecommendationResult(BaseModel):
     projected_z_score: float | None
     projected_risk_level: str
     excluded_strategies_note: str
+
+    # Our new predictive timeline
+    projection: ProjectionResult
  
