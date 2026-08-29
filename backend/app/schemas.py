@@ -59,3 +59,8 @@ class BenchmarkResult(BaseModel):
 class AnalyseOut(BaseModel):
     success: bool
     benchmark: BenchmarkResult
+
+
+class ExplainOut(BaseModel):
+    success: bool
+    explanation: str | None   # null when no API key is set or the call failed

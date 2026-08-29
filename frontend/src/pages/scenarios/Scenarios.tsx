@@ -21,6 +21,8 @@ export interface BenchmarkResult {
 
 interface ScenarioProps {
   benchmark: BenchmarkResult;
+  summary?: string | null;
+  summaryLoading?: boolean;
 }
 
 type View = "snapshot" | "position" | "peers" | "scenario";
@@ -32,7 +34,11 @@ const views: View[] = [
   "scenario",
 ];
 
-export default function Scenarios({ benchmark }: ScenarioProps) {
+export default function Scenarios({
+  benchmark,
+  summary,
+  summaryLoading,
+}: ScenarioProps) {
   const [activeView, setActiveView] =
     useState<View>("snapshot");
 
@@ -61,10 +67,6 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
     }
   };
 
-  /*
-    Creates room on the scale so the markers
-    don't sit directly on the edges.
-  */
   const maxScale =
     Math.max(
       currentUse,
@@ -119,7 +121,6 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
           </div>
 
           <div className="scenario-tabs">
-
             <button
               className={
                 activeView === "snapshot"
@@ -171,20 +172,13 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
             >
               What If?
             </button>
-
           </div>
         </header>
 
-
-        {/* ======================
-            SNAPSHOT
-        ====================== */}
-
+        {/* SNAPSHOT */}
         {activeView === "snapshot" && (
           <section className="scenario-view snapshot-view">
-
             <div className="view-content narrow">
-
               <p className="scenario-label">
                 YOUR WATER SNAPSHOT
               </p>
@@ -194,12 +188,23 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                 us about your farm.
               </h1>
 
-              <p className="hero-summary">
-                We've analysed your water use
-                against agricultural and regional
-                benchmarks to give you a clearer
-                picture of your current position.
-              </p>
+              {summaryLoading ? (
+                <p className="hero-summary">
+                  Generating your personalised
+                  water summary…
+                </p>
+              ) : summary ? (
+                <p className="hero-summary">
+                  {summary}
+                </p>
+              ) : (
+                <p className="hero-summary">
+                  We've analysed your water use
+                  against agricultural and regional
+                  benchmarks to give you a clearer
+                  picture of your current position.
+                </p>
+              )}
 
               <div className="snapshot-rating">
                 <span>Overall rating</span>
@@ -210,9 +215,9 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
               </div>
 
               <div className="snapshot-numbers">
-
                 <div>
                   <span>Your water use</span>
+
                   <strong>
                     {currentUse.toFixed(1)}
                     <small> ML/ha</small>
@@ -223,6 +228,7 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
 
                 <div>
                   <span>Regional benchmark</span>
+
                   <strong>
                     {regionalBenchmark !== null
                       ? regionalBenchmark.toFixed(1)
@@ -233,24 +239,15 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                     )}
                   </strong>
                 </div>
-
               </div>
-
             </div>
-
           </section>
         )}
 
-
-        {/* ======================
-            WATER POSITION
-        ====================== */}
-
+        {/* WATER POSITION */}
         {activeView === "position" && (
           <section className="scenario-view">
-
             <div className="view-content">
-
               <p className="scenario-label">
                 YOUR WATER POSITION
               </p>
@@ -266,11 +263,8 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                 {benchmark.crop_category}.
               </p>
 
-
               <div className="glass-card water-position-card">
-
                 <div className="position-heading">
-
                   <div>
                     <span className="metric-label">
                       Your water use
@@ -285,12 +279,9 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                   <div className="difference-pill">
                     {differenceText}
                   </div>
-
                 </div>
 
-
                 <div className="water-scale">
-
                   <div className="scale-track" />
 
                   <div
@@ -309,7 +300,6 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                       </strong>
                     </div>
                   </div>
-
 
                   {benchmarkPosition !== null && (
                     <div
@@ -331,32 +321,21 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                       </div>
                     </div>
                   )}
-
                 </div>
-
 
                 <div className="scale-direction">
                   <span>Lower water use</span>
                   <span>Higher water use</span>
                 </div>
-
               </div>
-
             </div>
-
           </section>
         )}
 
-
-        {/* ======================
-            PEER COMPARISON
-        ====================== */}
-
+        {/* PEER COMPARISON */}
         {activeView === "peers" && (
           <section className="scenario-view">
-
             <div className="view-content">
-
               <p className="scenario-label">
                 PEER COMPARISON
               </p>
@@ -371,11 +350,8 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                 observations in the dataset.
               </p>
 
-
               <div className="glass-card percentile-card">
-
                 <div className="distribution-wrapper">
-
                   <svg
                     className="distribution-curve"
                     viewBox="0 0 800 300"
@@ -393,7 +369,6 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                     />
                   </svg>
 
-
                   {benchmark.percentile !== null && (
                     <div
                       className="peer-marker"
@@ -402,21 +377,14 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                       }}
                     >
                       <div className="peer-line" />
-
                       <div className="peer-dot" />
-
                       <span>You</span>
                     </div>
                   )}
-
                 </div>
 
-
                 <div className="percentile-result">
-
-                  <span>
-                    Your position
-                  </span>
+                  <span>Your position</span>
 
                   <strong>
                     {benchmark.percentile !== null
@@ -424,15 +392,10 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                       : "N/A"}
                   </strong>
 
-                  <p>
-                    percentile
-                  </p>
-
+                  <p>percentile</p>
                 </div>
 
-
                 <div className="peer-context">
-
                   <div>
                     <span>Compared with</span>
 
@@ -459,26 +422,16 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                       {benchmark.crop_category}
                     </strong>
                   </div>
-
                 </div>
-
               </div>
-
             </div>
-
           </section>
         )}
 
-
-        {/* ======================
-            WHAT IF?
-        ====================== */}
-
+        {/* WHAT IF */}
         {activeView === "scenario" && (
           <section className="scenario-view">
-
             <div className="view-content">
-
               <p className="scenario-label">
                 SCENARIO EXPLORER
               </p>
@@ -493,9 +446,7 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                 rate.
               </p>
 
-
               <div className="glass-card what-if-card">
-
                 <div className="scenario-question">
                   What if you reduced your water
                   use by
@@ -506,9 +457,7 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                   <span>%</span>
                 </div>
 
-
                 <div className="slider-container">
-
                   <input
                     type="range"
                     min="0"
@@ -529,12 +478,9 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                     <span>20%</span>
                     <span>30%</span>
                   </div>
-
                 </div>
 
-
                 <div className="scenario-results">
-
                   <div className="scenario-result">
                     <span>Current</span>
 
@@ -545,11 +491,9 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                     <small>ML/ha</small>
                   </div>
 
-
                   <div className="scenario-arrow">
                     →
                   </div>
-
 
                   <div className="scenario-result projected">
                     <span>Projected</span>
@@ -560,30 +504,24 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
 
                     <small>ML/ha</small>
                   </div>
-
                 </div>
-
 
                 {regionalBenchmark !== null && (
                   <div className="scenario-benchmark-note">
-
                     Regional benchmark
 
                     <strong>
                       {regionalBenchmark.toFixed(1)}{" "}
                       ML/ha
                     </strong>
-
                   </div>
                 )}
-
               </div>
 
-
               <div className="methodology-row">
-
                 <div>
                   <span>Benchmark year</span>
+
                   <strong>
                     {benchmark.benchmark_year ??
                       "N/A"}
@@ -592,6 +530,7 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
 
                 <div>
                   <span>Region</span>
+
                   <strong>
                     {benchmark.region_used ??
                       "NSW"}
@@ -600,23 +539,19 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
 
                 <div>
                   <span>Sample size</span>
+
                   <strong>
                     {benchmark.sample_size ??
                       "N/A"}
                   </strong>
                 </div>
-
               </div>
-
             </div>
-
           </section>
         )}
 
-
         {/* BOTTOM NAV */}
         <footer className="scenario-navigation">
-
           <button
             className="nav-button secondary"
             onClick={goBack}
@@ -625,9 +560,7 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
             ← Back
           </button>
 
-
           <div className="progress-dots">
-
             {views.map((view) => (
               <button
                 key={view}
@@ -642,12 +575,9 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
                 }
               />
             ))}
-
           </div>
 
-
-          {currentIndex <
-          views.length - 1 ? (
+          {currentIndex < views.length - 1 ? (
             <button
               className="nav-button primary"
               onClick={goNext}
@@ -664,9 +594,7 @@ export default function Scenarios({ benchmark }: ScenarioProps) {
               Back to summary
             </button>
           )}
-
         </footer>
-
       </div>
     </main>
   );
