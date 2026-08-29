@@ -1178,6 +1178,8 @@
 .scenarios.suggestions-active .scenario-shell {
   height: auto;
   min-height: 100vh;
+  overflow: visible;
+  grid-template-rows: auto auto;
 }
 
 .edit-details-button {

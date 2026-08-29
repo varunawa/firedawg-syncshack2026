@@ -1,6 +1,9 @@
 import { useState } from "react";
 import "./Scenarios.css";
-import Suggestions from "../suggestions/Suggestions";
+import Suggestions, {
+  type Suggestion,
+  type BusinessData,
+} from "../suggestions/Suggestions";
 
 export interface BenchmarkResult {
   benchmark_water_intensity_ml_per_ha: number | null;
@@ -24,6 +27,8 @@ interface ScenarioProps {
   benchmark: BenchmarkResult;
   summary?: string | null;
   summaryLoading?: boolean;
+  suggestions: Suggestion[];
+  businessData?: BusinessData | null;
   onEditDetails?: () => void;
 }
 
@@ -44,8 +49,14 @@ export default function Scenarios({
   benchmark,
   summary,
   summaryLoading,
+  suggestions,
+  businessData,
   onEditDetails,
 }: ScenarioProps) {
+    console.log(
+    "SCENARIOS RECEIVED SUGGESTIONS:",
+    suggestions
+  );
   const [activeView, setActiveView] =
     useState<View>("snapshot");
 
@@ -113,12 +124,12 @@ export default function Scenarios({
 
   return (
     <main
-        className={`scenarios ${
-            activeView === "suggestions"
-            ? "suggestions-active"
+        className={`scenarios${
+          activeView === "suggestions"
+            ? " suggestions-active"
             : ""
         }`}
-    >
+  >
         <button
             type="button"
             onClick={onEditDetails}
@@ -446,7 +457,9 @@ export default function Scenarios({
         {/* SUGGESTIONS */}
         {activeView === "suggestions" && (
           <Suggestions
+            suggestions={suggestions}
             currentWaterUse={currentUse}
+            businessData={businessData}
             onBack={() =>
               setActiveView("peers")
             }
