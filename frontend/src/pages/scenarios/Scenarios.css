@@ -1,0 +1,88 @@
+.scenarios {
+  min-height: 100vh;
+  padding: 6rem 2rem;
+  background: #faf7f2;
+  color: #555b78;
+}
+
+.scenario-container {
+  width: min(100%, 1000px);
+  margin: 0 auto;
+}
+
+.scenario-label {
+  margin-bottom: 0.75rem;
+  color: #8997c1;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.scenario h1 {
+  margin: 0 0 2rem;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1;
+}
+
+.rating-card {
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #d9dbe8;
+  border-radius: 24px;
+  background: #fff0a8;
+}
+
+.rating-card p {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.rating-card h2 {
+  margin: 0;
+  font-size: 2.5rem;
+  text-transform: capitalize;
+}
+
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.result-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid #d9dbe8;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.result-card span {
+  color: #8997c1;
+  font-size: 0.9rem;
+}
+
+.result-card strong {
+  font-size: 1.8rem;
+}
+
+.scenario-context {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid #d9dbe8;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.scenario-context p {
+  margin: 0.5rem 0;
+}
+
+@media (max-width: 650px) {
+  .scenario-grid {
+    grid-template-columns: 1fr;
+  }
+}
