@@ -1,25 +1,485 @@
+/* ========================================
+   HOME
+   Pastel / soft agricultural aesthetic
+   ======================================== */
+
 .home {
   min-height: 100vh;
-  padding: 4rem;
-}
-
-.home-header {
-  text-align: center;
-}
-
-.home-header h2 {
-  font-size: 3rem;
-  margin: 0.5rem 0;
-}
-
-.map-placeholder {
-  height: 600px;
-  margin-top: 3rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  border: 1px solid #ccc;
-  border-radius: 20px;
+  padding: 4rem 2rem;
+
+  color: #555b78;
+
+  background:
+    radial-gradient(
+      circle at 12% 15%,
+      rgba(201, 216, 240, 0.55),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 88% 82%,
+      rgba(255, 240, 168, 0.3),
+      transparent 30%
+    ),
+    #faf7f2;
+}
+
+
+/* ========================================
+   CONTAINER
+   ======================================== */
+
+.question-container {
+  width: 100%;
+  max-width: 800px;
+}
+
+
+/* ========================================
+   PROGRESS
+   ======================================== */
+
+.question-progress {
+  display: flex;
+  align-items: center;
+
+  gap: 1rem;
+
+  margin-bottom: 5rem;
+
+  color: #9a9db0;
+
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.progress-line {
+  position: relative;
+
+  flex: 1;
+
+  height: 3px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #e2e0e8;
+}
+
+.progress-fill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: #8997c1;
+
+  transition:
+    width 0.45s
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+/* ========================================
+   QUESTION
+   ======================================== */
+
+.question-page {
+  animation:
+    questionIn 0.65s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+@keyframes questionIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(25px)
+      scale(0.985);
+
+    filter: blur(3px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+
+    filter: blur(0);
+  }
+}
+
+
+/* ========================================
+   QUESTION LABEL
+   ======================================== */
+
+.question-label {
+  margin: 0 0 1rem;
+
+  color: #8997c1;
+
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+
+/* ========================================
+   QUESTION TITLE
+   ======================================== */
+
+.question-page h2 {
+  max-width: 700px;
+
+  margin: 0;
+
+  color: #555b78;
+
+  font-family: "CG Times", "Times New Roman", serif;
+  font-weight: 400;
+
+  font-size: clamp(2.8rem, 6vw, 5rem);
+
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+
+/* ========================================
+   DESCRIPTION
+   ======================================== */
+
+.question-description {
+  max-width: 580px;
+
+  margin: 1.5rem 0 2.5rem;
+
+  color: #85889a;
+
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+
+/* ========================================
+   SELECT
+   ======================================== */
+
+.question-page select {
+  width: 100%;
+
+  padding: 1.15rem 1.3rem;
+
+  border: 1px solid #dcdae4;
+  border-radius: 16px;
+
+  background: rgba(255, 255, 255, 0.78);
+
+  color: #555b78;
+
+  font-family: inherit;
+  font-size: 1rem;
+
+  outline: none;
+
+  box-shadow:
+    0 8px 30px rgba(92, 96, 130, 0.05);
+
+  backdrop-filter: blur(10px);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.question-page select:hover {
+  border-color: #bbc2dc;
+}
+
+.question-page select:focus {
+  border-color: #8997c1;
+
+  box-shadow:
+    0 0 0 4px rgba(137, 151, 193, 0.12),
+    0 10px 30px rgba(92, 96, 130, 0.06);
+}
+
+
+/* ========================================
+   LARGE NUMBER INPUT
+   ======================================== */
+
+.large-input {
+  display: flex;
+  align-items: baseline;
+
+  margin-bottom: 2.5rem;
+
+  border-bottom: 2px solid #d7d5df;
+
+  transition:
+    border-color 0.25s ease;
+}
+
+.large-input:focus-within {
+  border-color: #8997c1;
+}
+
+.large-input input {
+  width: 100%;
+
+  padding: 0.5rem 0;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #555b78;
+
+  font-family: "CG Times", "Times New Roman", serif;
+
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 400;
+
+  letter-spacing: -0.04em;
+}
+
+.large-input input::placeholder {
+  color: #c3c1cb;
+}
+
+.large-input span {
+  padding-left: 1rem;
+
+  color: #9495a3;
+
+  font-size: 1.1rem;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   CROP OPTIONS
+   ======================================== */
+
+.option-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 0.8rem;
+
+  margin-bottom: 2.5rem;
+}
+
+.option-card {
+  padding: 1.2rem 1.3rem;
+
+  border: 1px solid #dedce5;
+  border-radius: 16px;
+
+  background: rgba(255, 255, 255, 0.76);
+
+  color: #62677f;
+
+  text-align: left;
+
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 6px 24px rgba(92, 96, 130, 0.04);
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.option-card:hover {
+  transform: translateY(-2px);
+
+  border-color: #bbc2dc;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 10px 28px rgba(92, 96, 130, 0.08);
+}
+
+.option-card.selected {
+  border-color: #e8d379;
+
+  background: #fff0a8;
+
+  color: #555b78;
+
+  box-shadow:
+    0 10px 28px rgba(183, 163, 91, 0.12);
+}
+
+
+/* ========================================
+   CONTINUE / ANALYSE BUTTON
+   ======================================== */
+
+.continue-button {
+  padding: 1rem 1.7rem;
+
+  border: none;
+  border-radius: 999px;
+
+  background: #8997c1;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 28px rgba(107, 118, 163, 0.18);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.continue-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  background: #7988b6;
+
+  box-shadow:
+    0 14px 34px rgba(107, 118, 163, 0.23);
+}
+
+.continue-button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.continue-button:disabled {
+  opacity: 0.35;
+
+  cursor: not-allowed;
+
+  box-shadow: none;
+}
+
+
+/* ========================================
+   FINAL ANALYSE BUTTON
+   ======================================== */
+
+.continue-button.analyse {
+  background: #fff0a8;
+  color: #555b78;
+
+  box-shadow:
+    0 10px 28px rgba(183, 163, 91, 0.14);
+}
+
+.continue-button.analyse:hover {
+  background: #fff6c9;
+
+  box-shadow:
+    0 14px 34px rgba(183, 163, 91, 0.18);
+}
+
+
+/* ========================================
+   BACK BUTTON
+   ======================================== */
+
+.back-button {
+  margin-top: 2rem;
+
+  padding: 0;
+
+  border: none;
+
+  background: none;
+
+  color: #999aaa;
+
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.back-button:hover {
+  color: #6f748e;
+
+  transform: translateX(-3px);
+}
+
+
+/* ========================================
+   MOBILE
+   ======================================== */
+
+@media (max-width: 650px) {
+  .home {
+    padding: 3rem 1.5rem;
+  }
+
+  .question-progress {
+    margin-bottom: 3rem;
+  }
+
+  .question-page h2 {
+    font-size: clamp(
+      2.5rem,
+      12vw,
+      3.5rem
+    );
+  }
+
+  .option-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .large-input input {
+    font-size: clamp(
+      3rem,
+      17vw,
+      5rem
+    );
+  }
+
+  .continue-button {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+  }
 }
