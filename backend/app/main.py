@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.db import Base, engine
 from app.routers import tasks
+from app.routers import prediction
 
 
 @asynccontextmanager
@@ -27,6 +28,7 @@ app.add_middleware(
 )
 
 app.include_router(tasks.router)
+app.include_router(prediction.router)
 
 
 @app.get("/health", tags=["meta"])
