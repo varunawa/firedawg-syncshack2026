@@ -4,13 +4,8 @@ import joblib
 import pandas as pd
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-
-MODEL_PATH = (
-    PROJECT_ROOT
-    / "ml"
-    / "water_intensity_model.joblib"
-)
+APP_DIR = Path(__file__).resolve().parents[1]
+MODEL_PATH = APP_DIR / "ml" / "water_intensity_model.joblib"
 
 
 _model = None
