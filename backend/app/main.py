@@ -47,6 +47,7 @@ from app.routers import tasks
 from app.routers.analyse import router as analyse_router
 from app.routers.weather import router as weather_router
 from app.routers.waternsw import router as waternsw_router
+from app.routers.recommendations import router as recommendations_router
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
@@ -73,6 +74,7 @@ app.include_router(tasks.router)
 # NB: the Vite dev proxy rewrites "/api/*" -> "/*", so the frontend's
 # POST /api/analyse reaches the backend as /analyse (no prefix here).
 app.include_router(analyse_router, tags=["analyse"])
+app.include_router(recommendations_router, tags=["recommendations"]) 
 
 app.include_router(
     weather_router,

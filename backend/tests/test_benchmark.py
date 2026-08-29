@@ -20,6 +20,16 @@ def test_unknown_postcode_returns_none():
     assert resolve_lls_region(None) is None
 
 
+def test_data_loader_reads_actual_postcode_lls_schema():
+    from app.services.data_loader import RiskDataStore
+
+    store = RiskDataStore()
+    assert store.lookup_lls("2680", "GRIFFITH") is not None
+    assert store.lookup_lls("2680", "GRIFFITH")["region_id"] == "riverina"
+    assert store.lookup_crop_stats("riverina", "Cotton") is not None
+    assert store.lookup_crop_stats("Riverina", "Cotton") is not None
+
+
 def test_regional_benchmark_matches_region_and_crop():
     b = regional_benchmark("Riverina", "Cotton")
     assert b.region_used == "Riverina"
@@ -47,6 +57,22 @@ def test_z_score_needs_two_points():
     assert zs.sample_size == 3
     assert zs.mean == pytest.approx(5.0)
     assert zs.z == pytest.approx(0.0)
+
+
+def test_single_benchmark_point_is_treated_as_neutral():
+    from app.services.risk import bucket_risk, compute_z_score
+
+    assert compute_z_score(5.0, 3.0, float("nan")) is None
+    assert bucket_risk(None) == "low"
+
+
+def test_single_point_benchmark_is_serializable():
+    from app.services.data_loader import RiskDataStore
+
+    stats = RiskDataStore().lookup_crop_stats("riverina", "Cotton")
+    assert stats is not None
+    assert stats["n"] == 1
+    assert stats["std"] is None
 
 
 def test_crop_distribution_is_non_trivial():
