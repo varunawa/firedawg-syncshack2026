@@ -28,7 +28,9 @@ logging.getLogger("google_genai.models").setLevel(logging.ERROR)
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 API_KEY = os.getenv("GEMINI_API_KEY", "")
-MODEL = os.getenv("GEMINI_MODEL", "gemini-3.6-flash")
+# flash-lite has a much larger free-tier daily quota than the full flash models
+# (gemini-3.6-flash free tier is only ~20 requests/day - too tight for a team).
+MODEL = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite")
 
 _SYSTEM = """You explain agricultural water-use benchmark results to Australian \
 farmers in a risk-assessment tool.
@@ -52,6 +54,17 @@ conditions are dry and that is adding pressure to water use.
 - If benchmark figures are null, say a like-for-like benchmark wasn't available \
 and keep it brief.
 - Explain what the comparison means for them, not how it was calculated."""
+
+
+def _thinking_config() -> types.ThinkingConfig:
+    """Minimise reasoning - this is a short mechanical summary.
+
+    Gemini 3.x flash uses `thinking_level` and rejects `thinking_budget=0`;
+    Gemini 2.5 and earlier use `thinking_budget` (0 disables it).
+    """
+    if "gemini-3" in MODEL or "gemini-4" in MODEL:
+        return types.ThinkingConfig(thinking_level=types.ThinkingLevel.MINIMAL)
+    return types.ThinkingConfig(thinking_budget=0)
 
 
 _client: genai.Client | None = None
@@ -81,11 +94,7 @@ def explain_comparison(comparison: Comparison) -> str | None:
                 system_instruction=_SYSTEM,
                 max_output_tokens=1500,   # headroom: thinking tokens count toward this
                 temperature=0.4,
-                # Short mechanical summary - minimal reasoning. (Gemini 3 flash
-                # rejects thinking_budget=0; MINIMAL is the lowest it allows.)
-                thinking_config=types.ThinkingConfig(
-                    thinking_level=types.ThinkingLevel.MINIMAL
-                ),
+                thinking_config=_thinking_config(),
             ),
         )
     except Exception:  # noqa: BLE001 - the summary is optional; never fail the request
