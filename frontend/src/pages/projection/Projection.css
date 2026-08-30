@@ -1,0 +1,262 @@
+.projection-page {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding: 1.2rem 0 3rem;
+  color: #555b78;
+}
+
+.projection-kicker {
+  margin: 0 0 0.7rem;
+
+  color: #8178db;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.projection-header h1 {
+  margin: 0;
+  max-width: 820px;
+
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1.18;
+}
+
+.projection-note {
+  max-width: 720px;
+  margin: 0.9rem 0 0;
+
+  color: #8b8fa3;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.projection-empty {
+  margin-top: 1.5rem;
+  padding: 2.2rem 2rem;
+
+  border: 1px solid #dcdde8;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(18px);
+}
+
+.projection-empty h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.projection-empty p {
+  margin: 0.7rem 0 0;
+  color: #8b8fa3;
+}
+
+.projection-hero,
+.projection-card,
+.projection-metrics,
+.projection-plan {
+  margin-top: 1.4rem;
+  padding: 1.5rem 1.7rem;
+
+  border: 1px solid #dcdde8;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 18px 55px rgba(85, 91, 120, 0.07);
+  backdrop-filter: blur(18px);
+}
+
+.projection-hero {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto;
+  gap: 1.2rem;
+  align-items: end;
+}
+
+.projection-hero span {
+  display: block;
+  color: #8b8fa3;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.projection-hero strong {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+.projection-hero small {
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+.projection-arrow {
+  color: #bbbcca;
+  font-size: 1.6rem;
+  padding-bottom: 0.45rem;
+}
+
+.projection-reduction strong {
+  color: #42a976;
+  font-size: 2.4rem;
+}
+
+.projection-chart-wrap {
+  position: relative;
+}
+
+.projection-chart {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.chart-grid {
+  stroke: rgba(137, 151, 193, 0.22);
+  stroke-width: 1;
+}
+
+.chart-line {
+  stroke: #8997c1;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.savings-line {
+  stroke: #65c995;
+}
+
+.chart-point {
+  fill: #fff0a8;
+  stroke: #8997c1;
+  stroke-width: 2.5;
+  cursor: pointer;
+}
+
+.chart-point.active {
+  fill: #8178db;
+  stroke: #fff;
+}
+
+.savings-point {
+  fill: #fff;
+  stroke: #65c995;
+}
+
+.chart-label {
+  fill: #9aa0b3;
+  font-size: 11px;
+}
+
+.chart-axis-title {
+  fill: #9aa0b3;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.chart-tooltip {
+  position: absolute;
+  right: 12px;
+  top: 8px;
+  min-width: 210px;
+  padding: 12px 14px;
+
+  border: 1px solid #e1e2ea;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10px 28px rgba(85, 91, 120, 0.1);
+}
+
+.chart-tooltip strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #555b78;
+}
+
+.chart-tooltip p {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 4px;
+  color: #8b8fa3;
+  font-size: 12px;
+}
+
+.chart-tooltip span {
+  color: #555b78;
+}
+
+.projection-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  padding: 0;
+}
+
+.projection-metrics div {
+  padding: 1.3rem 1.5rem;
+}
+
+.projection-metrics div + div {
+  border-left: 1px solid #e6e6ec;
+}
+
+.projection-metrics span {
+  display: block;
+  color: #8178db;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.projection-metrics strong {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 1.45rem;
+  font-weight: 500;
+}
+
+.projection-plan-count {
+  margin: 0 0 0.9rem;
+  color: #7d829a;
+}
+
+.projection-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.projection-pills span {
+  padding: 0.4rem 0.8rem;
+
+  border-radius: 999px;
+  background: #f3f2fb;
+  color: #7774c8;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 850px) {
+  .projection-hero,
+  .projection-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .projection-arrow {
+    display: none;
+  }
+
+  .projection-metrics div + div {
+    border-left: 0;
+    border-top: 1px solid #e6e6ec;
+  }
+}

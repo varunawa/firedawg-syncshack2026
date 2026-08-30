@@ -3,7 +3,9 @@ import "./Scenarios.css";
 import Suggestions, {
   type Suggestion,
   type BusinessData,
+  type RecommendationResponse,
 } from "../suggestions/Suggestions";
+import Projection from "../projection/Projection";
 
 export interface BenchmarkResult {
   benchmark_water_intensity_ml_per_ha: number | null;
@@ -36,6 +38,10 @@ interface ScenarioProps {
   summaryLoading?: boolean;
   suggestions: Suggestion[];
   businessData?: BusinessData | null;
+  recommendation?: RecommendationResponse | null;
+  onRecommendationResult?: (
+    data: RecommendationResponse
+  ) => void;
   onEditDetails?: () => void;
 }
 
@@ -43,7 +49,8 @@ type View =
   | "snapshot"
   | "position"
   | "peers"
-  | "suggestions";
+  | "suggestions"
+  | "projection";
 
 type RatingTier = "low" | "moderate" | "high" | "unknown";
 
@@ -76,6 +83,7 @@ const views: View[] = [
   "position",
   "peers",
   "suggestions",
+  "projection",
 ];
 
 export default function Scenarios({
@@ -84,6 +92,8 @@ export default function Scenarios({
   summaryLoading,
   suggestions,
   businessData,
+  recommendation,
+  onRecommendationResult,
   onEditDetails,
 }: ScenarioProps) {
     console.log(
@@ -191,7 +201,9 @@ export default function Scenarios({
         className={`scenarios${
           activeView === "suggestions"
             ? " suggestions-active"
-            : ""
+            : activeView === "projection"
+              ? " projection-active"
+              : ""
         }`}
   >
         <button
@@ -261,6 +273,19 @@ export default function Scenarios({
               }
             >
               Suggestions
+            </button>
+
+            <button
+              className={
+                activeView === "projection"
+                  ? "scenario-tab active"
+                  : "scenario-tab"
+              }
+              onClick={() =>
+                setActiveView("projection")
+              }
+            >
+              Projection
             </button>
           </div>
         </header>
@@ -554,14 +579,23 @@ export default function Scenarios({
             suggestions={suggestions}
             currentWaterUse={currentUse}
             businessData={businessData}
+            onRecommendationResult={onRecommendationResult}
             onBack={() =>
               setActiveView("peers")
             }
           />
         )}
 
+        {activeView === "projection" && (
+          <Projection
+            projection={recommendation?.projection}
+            selectedStrategies={recommendation?.selected_strategies}
+          />
+        )}
+
         {/* BOTTOM NAV */}
-        {activeView !== "suggestions" && (
+        {activeView !== "suggestions" &&
+          activeView !== "projection" && (
           <footer className="scenario-navigation">
             <button
               className="nav-button secondary"

@@ -50,6 +50,26 @@ export interface RecommendationResponse {
   projected_risk_level: string;
 
   excluded_strategies_note: string;
+
+  projection?: WaterProjection | null;
+}
+
+export interface ProjectionTimelinePoint {
+  month: number;
+  projected_water_intensity_ml_per_ha: number;
+  cumulative_water_saved_ml: number;
+  cumulative_water_saved_ml_per_ha: number;
+}
+
+export interface WaterProjection {
+  current_water_intensity_ml_per_ha: number;
+  projected_water_intensity_ml_per_ha: number;
+  annual_water_saved_ml: number;
+  annual_water_saved_ml_per_ha: number;
+  reduction_percent: number;
+  annual_cost_aud: number;
+  cost_per_ml_saved_aud: number | null;
+  timeline: ProjectionTimelinePoint[];
 }
 
 /* =========================================================
@@ -104,6 +124,9 @@ interface SuggestionsProps {
   suggestions?: Suggestion[];
   currentWaterUse: number;
   businessData?: BusinessData | null;
+  onRecommendationResult?: (
+    data: RecommendationResponse
+  ) => void;
   onBack?: () => void;
 }
 
@@ -230,6 +253,7 @@ export default function Suggestions({
   suggestions = [],
   currentWaterUse,
   businessData = null,
+  onRecommendationResult,
   onBack,
 }: SuggestionsProps) {
   const [rotation, setRotation] =
@@ -333,6 +357,8 @@ export default function Suggestions({
             strategyToSuggestion
           )
         );
+
+        onRecommendationResult?.(data);
 
         setSummary({
           strategyCount:
