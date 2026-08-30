@@ -3,7 +3,7 @@ import "./Home.css";
 import Scenarios, {
   type BenchmarkResult,
 } from "../scenarios/Scenarios";
-
+import AnalysisLoading from "../../components/AnalysisLoading";
 import {
   type Suggestion,
   type RecommendationResponse,
@@ -43,6 +43,9 @@ export default function Home() {
 
   const [suggestions, setSuggestions] =
   useState<Suggestion[]>([]);
+
+  const [recommendationResult, setRecommendationResult] =
+    useState<RecommendationResponse | null>(null);
 
   const [businessData, setBusinessData] =
     useState<BusinessData | null>(null);
@@ -170,6 +173,10 @@ export default function Home() {
     const handleAnalyse = async () => {
         console.log("ANALYSE BUTTON CLICKED");
 
+        if (isAnalysing) {
+            return;
+        }
+
         if (!matchedLocation) {
             console.error("No matched location available.");
             return;
@@ -185,11 +192,11 @@ export default function Home() {
         };
 
         setBusinessData(businessData);
+        setIsAnalysing(true);
 
         console.log("SENDING:", businessData);
 
         try {
-            setIsAnalysing(true);
 
             const response = await fetch("/api/analyse", {
             method: "POST",
@@ -252,6 +259,7 @@ export default function Home() {
                 );
 
                 setSuggestions([]);
+                setRecommendationResult(null);
             } else {
                 const recommendationData: RecommendationResponse =
                 JSON.parse(recommendationText);
@@ -272,6 +280,7 @@ export default function Home() {
                 );
 
                 setSuggestions(convertedSuggestions);
+                setRecommendationResult(recommendationData);
             }
             } catch (error) {
             console.error(
@@ -280,6 +289,7 @@ export default function Home() {
             );
 
             setSuggestions([]);
+            setRecommendationResult(null);
             }
 
             /*
@@ -316,6 +326,13 @@ export default function Home() {
             summaryLoading={summaryLoading}
             suggestions={suggestions}
             businessData={businessData}
+            recommendation={recommendationResult}
+            onRecommendationResult={(data) => {
+                setRecommendationResult(data);
+                setSuggestions(
+                  data.selected_strategies.map(strategyToSuggestion)
+                );
+            }}
             onEditDetails={() => {
                 setBenchmark(null);
                 setStep(1);
@@ -326,6 +343,9 @@ export default function Home() {
 
   return (
     <section id="home" className="home">
+      {isAnalysing ? (
+        <AnalysisLoading />
+      ) : (
       <div
         ref={containerRef}
         className={`question-container ${isRevealed ? "revealed" : ""}`}
@@ -526,6 +546,7 @@ export default function Home() {
               <button
                   className="continue-button analyse"
                   onClick={handleAnalyse}
+                  disabled={isAnalysing}
                   >
                   Analyse My Water Performance →
               </button>
@@ -543,6 +564,7 @@ export default function Home() {
           </button>
         )}
       </div>
+      )}
     </section>
   );
 }
